@@ -1,0 +1,42 @@
+1~10 더하는 방법
+
+-for문을 이용한다
+for(i=1;i<=10 I++){
+ 반복할 내용
+}
+그 밖에 sysout 이용하여 출력!
+
+-메소드 방법으로 하고 싶으면 
+가령 1부터10의 합이 sum(1,10)이라고 하면
+sum(1,10) 함수의 로직을 만들어준다.그러면 그때 그때 
+데이터를 저장할 수 있다.
+꼴은 private/public static/void int sum(int from,int to)
+return으로 결과값을 불러내고 리턴이 필요없으면 void를 쓴다
+private를 쓰면 지금 이방에서만 사용가능!
+
+출력할 시에는 System.out.println() 줄바꿈
+출력할 시에는 System.out.print() 줄바꿈 x
+출력할 시에는 System.out.prinf() format 형식
+
+입력할 시에는 Scanner를 import하고
+Scanner sc=new Scanner(System.in);
+- - 쓰기 나름
+이후 int n=sc.nextInt() 선언
+
+객체란?
+동일한 성질의 데이터와 메소드를 한곳에 모아두고 필요한 곳에서
+언제든지 이용할 수 있게 만든 덩어리
+
+메소드란?
+작업을 수행하기 위한 명령문의 집합
+어떤 값을 입력받아서 처리하고 그 결과를 보여줌
+
+메소드 형태
+접근제한자 리턴타입(staticl 메소드명(매개변수1,매개변수2.._)
+.//return 없을시에는 리턴 타입은 void
+처리할 프로세스들
+return 리턴값;
+
+
+
+
