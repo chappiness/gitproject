@@ -1,0 +1,39 @@
+SELF JOIN 
+SELECT EMPNO, ENAME, MGR FROM EMP WHERE ENAME='SMITH'; -- 상사의 사번이 7902
+SELECT EMPNO, ENAME FROM EMP WHERE EMPNO=7902;
+-상사의 이름을 알려면 두줄로 코딩을 해야 된다.
+하지만 SELF JOIN 이용해서 표현할 수 있다.
+(테이블 두개를 해서 조인하지만 같은 테이블에 있는 소스를 조인하는 경우)
+ex1)상사의 이름이 'KING'인 사원들의 이름과 JOB을 출력(w 사원입장,m 매니저입장)
+ SELECT W.ENAME, W.JOB
+    FROM EMP W, EMP M
+    WHERE W.MGR=M.EMPNO AND M.ENAME='KING';
+
+ex2)SCOTT과 동일한 부서번호에서 근무하는 사람의 이름 출력
+(비교할 대상이 1개 더 있어서 self join과 부서번호를 이용할려면 equl join을 활용해야 한다)
+SELECT E2.ENAME
+    FROM EMP E1, EMP E2
+    WHERE E1.ENAME='SCOTT' AND E1.DEPTNO=E2.DEPTNO AND E2.ENAME!='SCOTT';
+
+ex3)SCOTT과 동일한 근무지에서 근무하는 사람의 이름 출력
+(근무지 LOC를 묻는 경우라 equl join과 스캇의 같은 테이블의 사람을 이용해야하므로 SELF JOIN 활용)
+SELECT E2.ENAME
+    FROM EMP E1, DEPT D1, EMP E2, DEPT D2
+    WHERE E1.ENAME='SCOTT' AND
+      E1.DEPTNO=D1.DEPTNO AND E2.DEPTNO=D2.DEPTNO AND D1.LOC=D2.LOC AND
+      E2.ENAME ^= 'SCOTT';
+
+OUTER JOIN : 조인시 조건에 만족하지 않는 행까지 나타나는 경우
+
+EX1) SELF JION과 OUTER JOIN
+SELECT W.ENAME, W.MGR, M.EMPNO, M.ENAME
+  FROM EMP W, EMP M
+  WHERE W.MGR = M.EMPNO(+);
+KING의 매니저는 NULL이므로 원래는 출력이 안되지만
+NULL이 아닌  M.EMPNO 부분에 (+)해주면 같이 출력된다.
+
+EX2)EQUI JION과 OUTER JOIN
+  SELECT * FROM DEPT; -- 10,20,30,40번 부서
+  SELECT * FROM EMP; -- 10,20,30번 부서
+  SELECT * FROM EMP E, DEPT D WHERE E.DEPTNO=D.DEPTNO; -- 40번부서는 출력 안됨
+  SELECT * FROM EMP E, DEPT D WHERE E.DEPTNO(+)=D.DEPTNO; -- 40부서 포함(NULL이 아닌 부분에 +를 해준다)
