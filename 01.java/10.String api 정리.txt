@@ -1,0 +1,52 @@
+1.switch 복습
+switch(입력변수) {
+    case 입력값1: ...
+         break;
+    case 입력값2: ...
+         break;
+    ...
+    default: ...
+         break;
+} 
+2.public class pratice2 {
+	public static void main(String[] args) {
+	String jumin="930913-1025027";
+	System.out.println(jumin.charAt(7));
+	char temp=jumin.charAt(7);
+	String msg=jumin.substring(7,8);
+	System.out.println(temp);
+	System.out.println(msg);
+	if(temp=='1'){
+		System.out.println("남자");
+	}else if(temp=='2'){
+		System.out.println("여자");
+	}
+ }
+3.String APi 연습
+public class pratice1 {
+	public static void main(String[] args) {
+		String str1="채피니스(Chappiness)";
+		String str0="abcabcabc";
+		String str5="ABCABCABC";
+		String str4="010-2239-2762";
+		String str2=new String("ABCDabc");
+		String str3="    ja va ";
+		System.out.println(str1.concat(str2));//str1 뒤에 str2 붙여쓰기 
+		System.out.println(str1.substring(4));//인덱스 4부터 살린다
+		System.out.println(str1.substring(5,8));//인덱스 5부터 7까지만 살린다
+		System.out.println(str1.length());//문자열 길이
+		System.out.println(str1.toUpperCase());//대문자로
+		System.out.println(str1.toLowerCase());//소문자로
+		System.out.println(str1.charAt(5)); //인덱스의 5의 글자
+		System.out.println(str3.charAt(4));//인덱스4의 글자
+		System.out.println(str1.indexOf("p"));//p가 처음 나오는 인덱스
+		System.out.println(str0.indexOf("b",2));//인덱스 2부터 b가 처음 나오는 index
+		System.out.println(str0.indexOf("b",5));
+		System.out.println(str0.lastIndexOf("b"));//마지막 b의 인덱스
+		System.out.println(str4.substring(9,13)); //뒷자리만 살리기
+		System.out.println(str3.trim());//좌우 스페이스 제거
+		System.out.println(str0.equals(str5)); //같은 스트링이니? 놉
+		System.out.println(str0.equalsIgnoreCase(str5));//대소문자 관계없이 오케이
+		System.out.println(str1.replace('C','H'));//둘이 바꺼
+		System.out.println(str1.replace("채피니스","이건한"));//둘이 바꺼
+		System.out.println(str0.replaceAll("ab","바꿔")); //ab로 된거 다 바꺼
