@@ -1,0 +1,104 @@
+AWT component
+-자바에서 그래픽 요소를 만들기 위한 컴포넌트
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.Frame;
+//frame LayOut 타입:BorderLayout(동서남북중 배치 가능),FlowLayout(좌부터 우로,위부터 아래로),GridLayout(행과 열이 잡힘)
+//화면을 띄우는 역할하는 frame을 상속받아야 함
+//어떠한 이벤트 없는 화면 구현
+public class Ex0 extends Frame{
+	private Button btn1;
+	private Button btn2;
+	public Ex0() {
+		btn1=new Button("버튼");
+		btn2=new Button("그냥 버튼");
+		add(btn1,BorderLayout.NORTH);
+		add(btn2,BorderLayout.CENTER);
+		setVisible(true);//화면에 보일 수 있게!!
+		setSize(new Dimension(3000,2000)); //가로세로 픽셀로 사이즈 지정!
+		setLocation(2000,1000);//X축 Y축
+		pack();//컴포넌트의 사이즈를 컴파일러가 최소한의 사이즈로 정함
+		try {
+			Thread.sleep(3000);//3초 있다가
+		} catch (InterruptedException e) {
+		} //3000초
+		setVisible(false);
+		dispose();//프레임 컴포넌트의 지원해제
+		System.exit(0);
+}
+		public Ex0(String title) {
+			this();//위에 생성자함수 참고하겠다.
+			setTitle(title);
+		}
+	public static void main(String[] args) {
+		new Ex0("타이틀");//타이틀을 넣기 위해서 클래스에 title 추가
+	}
+}
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Label;
+
+public class Ex01 extends Frame{
+	private Label label;
+	private Button btnExit;
+	public Ex01(String title) {
+		super(title);
+		setLayout(new FlowLayout());
+		label=new Label("즐거운 월요일");
+		label.setPreferredSize(new Dimension(150,200));
+		btnExit=new Button("종료");
+		btnExit.setPreferredSize(new Dimension(200,200));
+		add(label);
+		add(btnExit);
+		setVisible(true);
+		setSize(new Dimension(500,300));
+		setLocation(100,100);
+	}
+	public Ex01() {
+		this("");
+	}
+	public static void main(String[] args) {
+		new Ex01();
+	}
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+
+public class Ex04 extends Frame {
+	private Panel panel;
+	private Label lbl1;
+	private TextField txtFid;
+	private Label lbl2;
+	private TextField txtPw;
+	private Button btnLogin;
+	public Ex04(String title) {
+		super(title);
+		setLayout(new BorderLayout());//기본값이라 안써도 됨
+		panel=new Panel(new GridLayout(2,2));//2행 2열
+		lbl1=new Label("아이디");
+		txtFid=new TextField("ID",20);
+		lbl2=new Label("비밀번호");
+		txtPw=new TextField(20);
+		txtPw.setEchoChar('*');
+		panel.add(lbl1);
+		panel.add(txtFid);
+		panel.add(lbl2);
+		panel.add(txtPw);
+		add(panel,BorderLayout.CENTER);//전체를 보드아웃으로 감싼다.
+		add(panel,BorderLayout.SOUTH);
+		setSize(new Dimension(300,150));
+		setLocation(100,100);
+		setVisible(true);
+	}
+	public static void main(String[] args) {
+		new Ex04("로근인");
+	}
+}
