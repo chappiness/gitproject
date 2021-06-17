@@ -1,0 +1,61 @@
+-태그(열린태그,닫힌태그)
+HTML문서를 구성하고 있는 요소이며
+이름과 속성,속성값을 갖는다
+ex)<a href="http://www.daum.net">
+태그이름:a,태그속성 href,태그값
+
+-HTML구조
+1.<!DOCTYPE html>
+2.<html lang="ko">
+3.<head> </head>
+-title,css,javascript 정보가 넣음
+-meta,title,script,link,style  태그가 들어감
+(그 외 태그는 body내부로 옮겨짐)
+4.<body><-body>
+사용자에게 보이는 웹 문서 실제 정보
+
+-글자 관련된 태그
+<h1></h1> 1~6까지 갈수록 포인트가 줄어듬
+h1은 기사로 치면 기사 제목 타이틀!
+<span></span> 글의 색을 강조해줌
+(body에서 span{color:색깔;}
+<p>긴문장</p> 긴문장이 단락 구분 가능!
+<i></i> 이태리체
+<b><strong> 글씨 진하게
+<sup></sup> 윗첨자
+<sub></sub> 아랫첨자
+<del></del>  삭제 라인
+
+<a href=#top> 페이지 내부 맨 위로 이동
+<a href="http://www.daum.net" target="">다음
+페이지에 다음 버튼 누르면 hyper link 이동
+""이 blank면 다른 창에 가서 링크 연결
+"" self면 현채 창에서 링크 연결
+
+-목록 태그
+ul:순서가 x *.*.*.* type square,disc,circle
+ol:순서가 0 1,2,3,4,5 type
+li:목록요소
+
+-표 태그
+<table> 테이블 태그가 기본!!
+tr:행 -----
+td:행 내부의 열(일반셀)
+th:행 내부의 열(주로 제목셀일때 
+ <td rowsapn="3"> 열 3줄 병합 
+ <tr colspan="2"> 행 2줄 병합
+</table>
+
+-이미지 출력 태그(img)
+src:이미지 경로 지정
+alt:이미지가 없을떄 나오는 글자 지정
+width,height 너비 높이 지정(css 주로 부분에서 설정)
+
+-오디오 태그
+src:오디오 파일의 경로 지정
+preload:오디오 재생하기 전 모두 불러올지 지정
+autoplay:오디오 자동 재생 지정
+loop:오디오 반복할지 지정
+controls:오디오 재생도구 출력하지 지정
+<input type="text" name="tel">    name은 화면 안보임!
+<input type="submit" value="검색">value은 화면에 보임!
