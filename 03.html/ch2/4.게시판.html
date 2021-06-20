@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /* 빈스트링은 false */
+        function chk() {
+          // 유효성 검사를 javaScript로만
+          if (!frm.title.value) { // frm.title.value==''
+            alert('제목을 꼭 입력하세요');
+            frm.title.focus();
+            return false; // submit 이벤트 제한
+          } else if (frm.name.value.length < 2) {
+            alert('작성자 이름은 2글자 이상 입력하세요');
+            frm.name.focus();
+            return false;
+          }
+          return true;
+        }
+      </script>
+</head>
+<body> <!--form action name onsubmit -->
+    <form action="" name="frm" onsubmit="return chk()">
+      <table border="1">
+        <caption>게시판</caption>
+        <tr>
+          <th>제목</th>
+          <td><input type="text" name="title" size="30" /></td>
+        </tr>
+        <tr>
+          <th>작성자</th>
+          <td><input type="text" name="name" size="30" /></td>
+        </tr>
+        <tr>
+          <th>본문</th>
+          <td><textarea name="content" rows="5" cols="30"></textarea></td>
+        </tr>
+        <tr>
+          <th>첨부파일</th>
+          <td><input type="file" name="filename" /></td>
+        </tr>
+        <tr>
+          <th colspan="2">
+            <input type="submit" value="저장" />
+            <input type="reset" value="취소" />
+          </th>
+        </tr>
+      </table>
+    </form>
+  </body>
+  </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="get">
+    <table>
+        <tr>
+            <td>아이디</td>
+            <td><input type="text" name="id">
+            <input type="button" value="중복확인"></td>
+        </tr>
+        <tr>
+            <td>비밀번호</td>
+            <td><input type="password" name="pwd"></td>
+        </tr>
+        <tr>
+            <td>전화번호</td>
+            <td><input type="tel" name="tel1" size="2">-
+                <input type="tel" name="tel2" size="2">-
+                <input type="tel" name="tel3" size="2">
+            
+            </td>
+        </tr>
+        <tr><!--40살까지 올릴 수 있다.-->
+            <td>경력</td> 
+            <td><input type="number" name="career" min="0"max="40"></td>
+        </tr>
+         <tr>
+             <td>이메일</td>
+             <td><input type="email" name="email">
+             </td>
+         </tr>
+         <tr><!--파일선택 버튼이 나온다-->
+             <td>사진</td>
+             <td><input type="file" name="filename"></td>
+         </tr>
+         <tr>
+             <td>성별</td><!--name이 다르면 두개 다 체크된다!!!checked="checked" 미리 체크한상태로-->
+             <td><input type="radio" name="gender" value="m">남
+             <input type="radio" name="gender" value="w" checked="checked">여</td>
+         </tr>
+         <tr><!--체크박스 활용!!이거는 다 선택가능!!-->
+             <td>사용언어</td>
+             <td><input type="checkbox" name="lang" value="kor" checked="checked">한국어
+                <input type="checkbox" name="lang" value="eng">영어
+                <input type="checkbox" name="lang" value="chi">중국어
+         </tr><!--td 안에 select안에 option 고를때-->
+         <tr>
+             <td>앨범 유무</td>
+             <td><input type="radio" name="앨범 유무" value="yes">있음
+                <input type="radio" name="앨범 유무" value="no" checked="checked">없음
+            </td>
+         </tr>
+         <tr>
+             <td>첫 싱글날짜</td>
+             <td><input type="text" name="싱글날짜"></td>
+         </tr>
+            <td>국적</td>
+            <td>
+            <select name="nation"> 
+                <option value="kor">대한민국</option>
+                <option value="eng">미국</option>
+                <option value="england">영국</option>
+            </select>
+            </td>
+            <tr>
+                <td>좋아하는 음식</td>
+                <td><!--멀티플하면 한번에 나옴 대신 사이즈 조정 -->
+                    <select name="food" multiple="multiple" size="4">
+                        <option>볶음밥</option>
+                        <option>비빔밥</option>
+                        <option>주먹밥</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>자기소개</td>
+                <td><textarea name="intro"></textarea col="10" rows="10"></td>
+            </tr>
+            <tr><!--데이트 쓰면 달력나온다!-->
+                <td>생일</td>
+                <td><input type="date" name="birth"></td>
+            </tr>
+            <tr>
+                <td>sns url</td>
+                <td><input type="url" name="sns"></td>
+            </tr>
+            <tr>
+                <td>좋아하는 색상</td>
+                <td><input type="color" name="color"></td>
+            </tr>
+            <tr>
+                <td>좋아하는 정도</td>
+                <td>0<input type="range" name="range" min="0" max="100">100</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="입력"> 
+                    <input type="reset" value="초기화"> 
+                </td>
+            </tr>
+    </table>
+</form>
+</body>
+</html>

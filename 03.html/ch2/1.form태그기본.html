@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td {color:red;}
+        table {color:royalblue;}
+    </style>
+</head>
+<body>
+    <!-- 아이디와 비번을 입력받아 (파라미터이름 : uid, upw)
+    서버 프로그램(jsp) 측에 전달(GET vs. POST)-->
+    <form action="#" method="GET">
+        <table border="1">
+        <tr>
+            <td>아이디</td>
+            <td><input type="text" name="uid">
+            </td>
+        </tr>
+        <tr>
+            <td>비밀번호</td>
+            <td><input type="password" name="pwd"></td>
+        </tr>
+        <tr>
+             <!--value는 화면에 나오고 name은 안나옴! submit제출버튼-->
+            <td><input type="submit" value="로그인"></td>
+        </tr>    
+
+        </table>
+    </form>
+</body>
+</html>
