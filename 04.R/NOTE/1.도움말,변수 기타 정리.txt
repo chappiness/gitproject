@@ -1,0 +1,66 @@
+1.도움말 기능 (?,help)
+? iris
+help(iris)
+
+2.검색 기능
+??iris
+help.search("iris')
+
+3.패키지 도움말
+library(help='datasets')
+
+4.형변환 함수
+as.ineteger(1.24)>>결과값 1
+as. 이용하여 형을 변환시킨다.
+
+5.c(-1:1):(-1,0,1) 벡터를 의미(벡터:동일자료형의 집합)
+data<-c(10,20,30)
+mean(data) 벡터를 이루는 변수의 평균
+
+6.패키지 설치 방법
+-install.packages("패키지명")
+-설치된 패키지를 메모리에 로드
+:library("패키지명")
+-로드된 패키지 안의 데이터나 함수는 사용가능
+-패키지 언로드:detach("package:패키지명",unload=TRUE)
+
+7.dim(available,packages()):# CRAN site에 업로드된 패키지 갯수
+
+8.
+data <- '홍길동35이순신43김말똥12'
+str_extract(data,'[1-9]{2}') 결과값:35
+html 정규표현식이랑 똑같음
+str_extract_all(data,'[1-9]{2}') 결과값:35,43,12
+
+9.데이터 삭제 rm(data)
+
+10.전역변수(전구간에 적용되는 변수) vs 지역변수(한정된 공간에 있는 변수)
+class(result) #result는 type:numeric
+result<-0 전역변수
+add<- function(a,b){
+  result<- a+b #지역변수
+  }
+add(10,20) #위에 함수 매개변수에서 a=10,b=20
+result  이 값은 전역변수인 0이다
+
+11. .b:히든 변수/ls()히든변수 제외한 변수 목록 출력
+ls(all.names=TRUE)히든 변수 포함 모두 출력
+ls(str)변수이름과 구조를 보여줌
+
+12.
+(1) print 그냥 그대로 출력!
+(2) cat "" 없이 출력!
+cat :여러 항목을 묶어서 출력,행렬이나 리스트 등 
+복합 데이터 구조는 출력x
+ cat("메세지는 "+msg) 에러(자바에서는 가능)
+cat("메세지:",msg)(가능) +대신 콤마 이용
+
+(3) paste
+paste("hello","world") #빈칸 존재 "hello world"
+paste0("hello","world") #빈칸 없이 "helloworld"
+paste("hello","world",sep=", ") #중간에 콤마 심어주기! sep!
+paste(c(1,2,3),c("하나","둘","셋"),sep="은",collapse=";") 
+c벡터 두개 사이에 은과 ;이 온다
+결과값:"1은하나;2은둘;3은셋"
+
+13.rep('th,9) c벡터안에 똑같은 성분이 반복될때 rep 반복함수를 쓴다.
