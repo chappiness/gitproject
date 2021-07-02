@@ -1,0 +1,285 @@
+##### 3장. R 데이터 종류 및 구조 #####
+##1.데이터 종류
+# 기본데이터타입: (문자,숫자,논리,복소수) = 스칼라타입
+# factor(남,여), vector, list, matrix, array, data.frame,날짜,특별한값(결측치..)
+a<-10+7i #complex
+class(a)
+
+## 2. 기본 데이터 타입 : character, numeric, logical(TRUE:T, FALSE:F), complex
+# character : 문자, 문자열
+a<-'hello'
+a<-'hello R'
+cat(a)
+class(a) #타입
+mode(a) #타입
+typeof(a)
+
+methods(is) # is로 시작하는 함수들들
+is.character(a) # a변수가 character인지 여부
+as.character(100) # 100을 character로 형변환한 결과 반환
+
+# numeric : 정수, 실수
+
+b<-10.1
+b<-10
+b
+is.numeric(b) #T/F
+as.character(b)
+methods(as)
+as.integer(10.9) #소숫점자리를 그냥 버림
+
+#logical
+
+c<- TRUE;
+is.logical(c)
+class(c)
+as.numeric(c) #1
+as.character(c)
+
+str(a) # str() R의 내부 구조를 간결하게 표시
+str(b)
+str(c)
+
+## 3. 특별한 값(Null, NA; 결측치, NaN, Inf)
+result<-0
+add<-function(a,b){
+  result<<-a+b
+  return ()
+}
+(temp<-add(1,2))
+result
+
+(temp<-add(b=10,a=1)) # Null : 값이 없음을 의미
+is.null(temp)
+
+d<-c(2,4,NA,6,NaN,10/0) #vector(동일 자료형 집합)
+d
+mean(d) # 평균계산(결측치가 있으면 결측치)
+mean(d,na.rm=TRUE) # 결측치를 제외한 값들의 평균균
+d<-c(2,4,NA,6,NaN)
+mean(d,na.rm=TRUE)
+
+# 결측치(NA) 관련함수
+# is.na(d) : 결측치인지 아닌지 여부 반환
+# complete.case(d) : d변수에 결측치가 아니면 TRUE
+# na.omit(d) : 결측치 제외
+# na.pass(d) : NA 여부와 상관없이 처리
+d <- c(2, 4, 6, NA, 8, 10)
+d[1] # 인덱스는 1부터 시작
+is.na(d) # F F  F T F F
+is.na(d[4])
+?is.na
+complete.cases(d)
+d[complete.cases(d)] #위에서 트루인 친구들만 여기서 출력
+na.omit(d)
+mean(d,na.rm=TRUE)
+boxplot(d)
+
+## 4. 팩터(fator) : 범주형데이터, 순서식(미리 정해진 여러개 값 중 하나)
+gender <-c('남','여','여','남')
+gender
+gender[1]
+gender[2]
+gender[3]
+gender[4]
+gender[1:2]
+gender[1:3]
+gender[2:3]
+gender[5]<-'중성' #추가됨
+gender
+class(gender) #character 벡터 변수의 타입은 요소 하나 하나의 타입
+str(gender) #chr [1:5] "남" "여" "여" "남" "중성"
+
+gender1<-factor(c('남','여','여','남'),levels=c('남','여'))
+gender1
+gender1[5]<-'중성'
+gender1 #NA로 뜬다
+class(gender1) #factor변수의 타입:factor
+str(gender1)
+na.omit(gender1)
+nlevels(gender1) #레벨의 갯수
+levels(gender1) #카테고리 출력
+
+level<- factor(c('좋음','보통','보통'),levels=c('매우싫음','싫음','보통','좋음','매우좋음'))
+level #[1] 좋음 보통 보통
+      #Levels: 매우싫음 싫음 보통 좋음 매우좋음
+level<- factor(c('좋음','보통','보통'),levels=c('매우싫음','싫음','보통','좋음','매우좋음'),ordered=TRUE)
+level #Levels: 매우싫음<싫음 <보통 <좋음< 매우좋음
+leve1[4]='매우좋음'
+level[5]='몰라'
+level #좋음 보통 보통 <NA> <NA>
+
+nlevels(level) #레벨의 갯수
+levels(level) #카테고리 출력
+
+gender <- c('남','남','여',NA)
+gender
+class(gender)
+
+# character <-> factor
+gender <- as.factor(gender) # 범주형 변수로 변환(비추)
+gender <- as.character(gender) # 범주형 변수를 character 벡터 변수로 변환
+class(gender)
+gender
+gender<-factor(gender,levels=c('남','여'))#추천
+gender
+gender<-as.character(gender)
+gender
+
+## 5. 구조형 변수와 복합형 변수 : 변수 하나에 여러 값 할당
+# (1) 구조형 변수 : 동일 자료형
+#         ex. 벡터(1차원), 행렬(2차원. 회귀분석 용이), 배열(n차원)
+# (2) 복합형 변수 : 서로 다른 자료형을 가질 수 있음
+#         ex. 리스트, 데이터프레임(cvs)
+
+## 6. 벡터 : 동일 자료형
+#자동 형변환 룰 : 문자 < 복소수 < 숫자 < logical(문자가 제일 파워쎔)문 복 수로 외우자
+a <-c(1,2+1i,T) #1+i 안됨
+class(a) #복소수
+b <-c(F,F,T,1)
+class(b) #숫자
+c <- c(T,'T')
+class(c) #문자
+
+data<-1:10 #1~10까지의 정수
+data
+data[4] <-40 #바꿔치기
+data
+
+names(data) 
+names(data) <-c('A열','B열','C열','D열','E열','F열','G열','H열','I열','J열')
+data
+album<-c('땅','빠삐용','돌아봐','사라진동네')
+album
+names(album)<-c('1st','2st','3rd','4rd')
+album
+
+# 특정한 값 조회
+album[1]  # 첫번째 값 반환
+album['1st'] # 첫번째 값 반환
+data[1]
+data['A열']
+album[c(1,2)] # 1번째, 2번째 값을 반환
+# data[1,2] 에러
+
+album[c(1,2,3,4)]
+album[c(1:4)]
+album[1:4]
+album[c('1st','2st')]
+album[1:3] # 1,2,3번째 값을 반환
+album[c(1:3)] # 1,2,3번째 값을 반환
+
+# album[c('1st':'4rd')] 에러
+data
+data[-2] # 2번째 값 제외 (음수는 제외)
+data[-c(2,3)] # 2,3번째 값 제외
+data[data>4] # 4보다 큰 값만 반환
+data > 4 #FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE 출력
+data[c(T,T,T,T,F,F,F,F,T,T)] #TRUE인 열만 값 변환
+data
+names(data)<-NULL
+names(data)
+data['A열']
+
+#항목갯수
+length(data)
+NROW(data) #111111111111
+
+3 %in% data # data에 3이 포함되어 있는지 여부 T/F
+11 %in% data # data에 11이 포함되어 있는지 여부 T/F
+
+# Q. (1) 시험점수 변수를 만들어 출력하고 (2)전체 평균을 구한 후 출력(평균=xx)
+# yi, kim, yun, lim, lee, park
+# 80. 100, 90,미응시, 70, 70
+data <-c(80,100,90,NA,70,70)
+names(data)<-c('yi','kim','yun','lim','lee','park')
+data
+avg<-mean(data,na.rm=T)
+avg
+cat('평균:',avg)#평균: 82
+paste('평균:',avg) #"평균: 82"
+
+# (3) 80점 이상의 점수만 출력(NA제외)
+data[data>80]
+temp<-data[complete.cases(data)] #temp <-na.omit(data)
+temp
+temp[temp>80]
+temp <-na.omit(data) #temp<-data[complete.cases(data)]
+temp[temp>80]
+
+# # # # # # # 함수 # # # # # # #
+
+ax2_b.add <- function(a=0, b=0){
+  return(2*a + b)
+}
+ax2_b.add(1,1)
+ax2_b.add(1) #a=1
+ax2_b.add(b=10)
+ax2_b.add(b=2,a=1)
+# # # # # # # # # # # # # # # # 
+
+# 6.1 character() : character 벡터 생성하는 함수
+charVec <-character() #길이 0인 문자벡터
+charVec
+is.vector(charVec) # t/f
+class(charVec)
+length(charVec)
+
+charVec[1] <- 'R'
+charVec
+charVec <-character(5) # 길이가 5인 빈 문자 벡터
+charVec
+charVec[1]<-'안녕'
+charVec[2]<-'바보'
+charVec[3]<-'멍청이'
+charVec
+charVec[6]<-'말미잘'
+charVec
+charVec[9]<-'수달달' # NA NA 수달달
+charVec
+
+# 6.2 numeric()
+intVec <-numeric() # 길이가 0인 숫자 벡터
+intVec
+is.vector(intVec)
+class(intVec)
+intVec<-numeric(2) # 길이가 2인 숫자벡터 (0,0)
+intVec
+intVec[3]<-12.2
+intVec[4]<-3.3
+
+# 6.3 logical()
+logicVec<-logical(3) #길이가 3인 logical 벡터(FALSE, FALSE, FALSE)
+logicVec[1]<-T
+logicVec[2]<-F
+logicVec
+
+# 6.4 seq
+?seq
+seq(1,10)
+seq(1,10,1)
+seq(1,10,2)
+seq(2,10,2)
+seq(from=1,to=10,by=2)
+seq(from=1,to=100,11) #+11
+seq(from=1,to=100,length.out=11) #11등분
+
+a<-seq(1,100,11)
+a
+is.vector(a)
+class(a)
+seq(10,-10,-2) #10~-10 -2씩
+seq(0,1,0.1)
+seq(1,9,pi)
+pi <-3
+pi
+rm(pi)
+pi #다시 돌아옴
+
+cat <-function(a,b){
+  return(a+b)
+}
+cat('pi값은',pi)
+cat(1,2)
+rm(cat)
+cat('pi값은',pi) #다시 돌아옴
