@@ -1,0 +1,71 @@
+3장. R 데이터 종류 및 구조
+1.기본 데이터 타입
+#character:문자,문자열
+a<-'chappiness
+class(a)
+is.charactor(a) TRUE
+as.charactor(100) 100을 숫자 100에서 문자 100으로!
+
+# numeric : 정수, 실수
+#complex:복소수(a+bi)
+#logical:논리
+c<- TRUE
+is.logical(c) TRUE
+
+2.특별한 값:NULL,NA,NaN 0/0같은 경우(Not a Number,Inf(무한대)
+함수에 리턴값이 없을때 NULL이 나온다
+add<-function(a,b){
+  result<-a+b
+  return(result)
+}
+add(1,2) /함수안에 리턴값이 없으면
+temp<- add(1,2) null 
+is.null(temp) TRUE
+
+#3.결측치 제외하는 경우
+Ex) d <-c(2,4,3,2,NA)
+mean(d)를 하면 NA 결측치가 나와서 제외하고 평균계산을 해야 한다.
+
+1)na.rm(d)=TRUE 설정하고
+mean(d)의 결측치는 제외하고 평균 계산
+mean(d,na.rm=T)
+
+2)complete.cases(d)<<<<<T T T T F 중간맛 버전 
+d에 2번식을 인덱스로 넣으면 2,4,3,2가 출력됨
+ mean(d[complete.cases(d)])
+
+3)na.omit(d) 제일 순한맛 버전
+결측치를 제외하고 평균 계산 가능
+mean(na.omit(d))
+
+## 4. 팩터(factor):범주형 데이터
+gender<-c(남,여,남,여):벡터 형식 class는 character
+gender<-c(남,여,남,여),levels=c(남,여):팩터 형식 
+levels:카테고리 출력하는 함수
+class(gender)를 팩터 타입으로 바꿀때는 꼭 레벨쓰까지 설정해주도록!
+
+## 5. 구조형 변수와 복합형 변수(변수 허너애 여러 값 할당)
+1)구조형 변수:꼭!!동일자료형
+벡터(1차원),행렬(2차원),배열(n차원)
+
+2)복합형 변수:서른 다른 자료형
+리스트(list),데이터프레임(cvs)
+
+
+## 6. 벡터 : 동일 자료형 구조형 변수
+if)동일 자료형이 안온다면 문자,복소수,숫자,logical순으로 우세하게 변경됨!
+c(2*i,1,T,2)  class:character
+c(T,T,T,2*I) class:complex
+c(2,2,2,T) class:number
+c(T,T,T,F) logical
+d<-c(1,2,3,4)
+-d[2]=3 이렇게 변경 가능
+-벡터에 이름 부여 names(d) 활용
+
+
+
+
+
+
+
+
