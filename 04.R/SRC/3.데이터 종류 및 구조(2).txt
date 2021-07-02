@@ -1,0 +1,187 @@
+?rep
+emp <- read.table('1장/inData/emp.csv',sep=',',header=TRUE)
+#rep(x, times = 1, length.out = NA, each = 1)
+rep(1:2,3)
+rep(1:2,3,7)
+rep(1:3,each=3)
+rep(1:4,times=3)
+rep(1:10,length.out=5)
+emp
+emp$empno
+emp$deptno
+class(emp$empno)
+student<-list(name='이건한',nickname='채피니스',age=25)
+student
+student['name']
+student$name
+student[1]
+student$nickname<-NULL
+student
+NROW(student)
+class(student)
+studentVector <-unlist(student)
+class(studentVector) #character
+studentVector <-as.list(studentVector)
+class(studentVector)
+
+#8.행렬
+colMatrix <-matrix(1:15,nrow=5,ncol=3) #5행3열
+colMatrix #1111 일자순으로 출력됨#byrow=FALSE
+rowMatrix <-matrix(1:15,nrow=5,ncol=3,byrow=TRUE)
+rowMatrix #---
+?matrix
+#matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
+       #dimnames = NULL)
+rowMatrix[1,3] #1행 3열
+rowMatrix[3,3] #13행 3열
+rowMatrix[1:3]  # 1~3행-1열
+rowMatrix[2:3]
+rowMatrix[c(1,3,5),2] #1행,3행,5행 2열
+rowMatrix[c(1:5),]
+rowMatrix[1,c(1:3)]
+rowMatrix[4,2]
+dim(rowMatrix) #차원수
+NROW(rowMatrix)
+nrow(rowMatrix)
+NCOL(rowMatrix)
+ncol(rowMatrix)
+dimnames(rowMatrix) #차원이
+dimnames(rowMatrix) <- list(c('1행','2행','3행','4행','5행'),
+                            c('A열','B열','C열'))
+rowMatrix
+rownames(rowMatrix) #1행 2행 3행 4행 5행
+colnames(rowMatrix) #'A열','B열','C열'
+rm(rowMatrix)
+
+rownames(rowMatrix)
+colnames(rowMatrix)
+
+rownames(rowMatrix) <-c('1등','2등','3등','4등','5등')
+colnames(rowMatrix) <-c("체",'피',"니니")
+rowMatrix
+
+# 행렬 값 조회
+rowMatrix
+rownames(rowMatrix) <- c('1월','2월','3월','4월','5월')
+colnames(rowMatrix) # 열이름
+colnames(rowMatrix) <- c('kim','park','lee')
+rowMatrix
+
+rowMatrix[1,2]
+rowMatrix["1월","kim"]
+rowMatrix["5월",'lee']
+rowMatrix[c(1:3),c(1:3)]
+#rowMatrix[c('1월':'4월'),c('kim','park')] 안됨
+rowMatrix['1월',,drop=FALSE] #1월이 살아남아있다 행렬형태로 반환
+rowMatrix['1월',] #1월 데이터가 벡터형태로 출력 
+rowMatrix[-3,] #3월 뺴고!!! 다출력
+rowMatrix[-3,c('kim','park')]
+rowMatrix[-3] #3번째 데이터를 제이하고 모든 데이터가 1차벡터로
+rowMatrix[-3,2]
+
+# 행렬의 곱(%*%), 전치행렬(행과 열을 교환), 대각행렬(cf. 단위행렬), 역행렬
+# 행렬의 곱(%*%)
+payMatrix <-matrix(c(1200,2000,3000),ncol=3)
+payMatrix 
+dimnames(payMatrix) <-list('집',c('home1','home2','home3'))
+payMatrix 
+
+chappi <-matrix (c(c(1,10,100),c(2,20,200),c(3,30,300)),nrow=3)
+dimnames(chappi) <- list(c('고','민','중'),c('구','빈','중'))
+chappi
+#dimnames(name) list로 이름을 넣어주자
+
+x <- c(10,20,30)
+names(x)<-c('집','학원','비')
+x
+payMatrix <- matrix(c(12000,26000,18000), ncol=3)
+payMatrix
+dimnames(payMatrix) <- list(c('시간당수당'),c('철수','영희','길동'))
+payMatrix
+workerMatrix <- matrix(c(c(5,4,9), c(7,3,2)), nrow=3,
+                       dimnames = list(c('철수','영희','길동'),
+                                       c('5월','6월'))
+)
+#payMatrix(1*3)
+#workerMatrix(3*2)
+payMatrix
+workerMatrix
+cost <- payMatrix%*%workerMatrix #(1*2)
+cost
+dimnames(cost)<-list('월급')
+
+#전치행렬(행과 열 교환) 쓰는 이유는 역행렬 바볼 만들려고 #t(rowMatrix)
+rowMatrix <-matrix(1:15,nrow=5,ncol=3,byrow=T,
+                   dimnames=list(c('R1','R2','R3','R4','R5'),c('C1','C2','C3')))
+
+rowMatrix # 5*3
+t(rowMatrix) #3*5
+
+#역행렬 solve(X)
+X <-matrix(1:4,nrow=2,byrow=F)
+X
+solve(X) #역행렬
+
+X%*%solve(X)
+solve(X)%*%X
+
+# 단위행렬 ; 대각행렬을 구하는 diag() 함수 이용
+diag(c(1,1)) # 2x2
+diag(rep(1,2))  #2x2
+diag(rep(1,3)) #3x3
+
+#행렬의 곱을 이용한 선형회귀식 도출(데이터가 2개)
+x <-c(2,4) #독립 변수 :공부량
+y <-c(40,60) #종속 변수:점수
+x
+y
+X <- matrix(c(x,rep(1,NROW(X))),nrow=NROW(X),ncol=2,byrow=FALSE)
+X
+Y<-matrix(y,ncol=1)
+Y
+#40=2w+b
+#60=4w+b
+#2 1 w=40
+#4 1 b=60
+ab<-solve(X)%*%Y
+ab
+ab[1] # x의 기울기 (10
+ab[2] #y절편 (20)
+lm(y~x) #회귀식 도출함수
+plot(x,y)
+lines(x,x*ab[1]+ab[2],col=2)
+
+
+# 행렬의 곱을 이용한 다변량 선형회귀식 도출(독립변수 3개)
+x1 <-c(60,65,55) #독립변수1:몸무게
+x2 <-c(5.5,5.0,6.0) #키
+x3 <-c(1,0,1)     #흡연유무
+y  <-c(66,74,78) #수명
+
+X <- matrix(c(x1,x2,x3),ncol=3)
+X
+Y <-matrix(y,ncol=1)
+Y
+ab <-solve(X)%*%Y
+ab #y=ax1+bx2+cx3 a b c 가 궁금한거
+#무게 80,키6.5 금연
+80*ab[1]+6.5*ab[2]+0*ab[3] #98살살
+
+# 행렬을 데이터프레임으로 변환
+X
+dimnames(X) <-list(c('LEE','GUN','HAN'),c('키','몸무게','앉은키'))
+X
+dataframe<-as.data.frame(X)
+dataframe
+class(dataframe)
+
+# 행렬연산 ( *,+,-,/,%%,   %*%)
+a <-matrix(1:4,ncol=2)
+a
+b <-matrix(seq(0,30,10),nrow=2)
+b
+c <-a%*%b
+c
+a^b #a위에 b가 올라탐
+a*b #그냥 곱하기
+a/b
