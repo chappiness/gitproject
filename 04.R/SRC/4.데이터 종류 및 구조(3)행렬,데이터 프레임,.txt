@@ -1,0 +1,144 @@
+## 9. 배열 (n차원 동일 자료형의 집합)
+#형식은 행렬과 비슷(but,행,열,면 층이  있음)
+array(1:24,dim=c(3,8)) #마치 행렬
+B<-array(1:24,dim=c(3,4,2)) #1층 2층 쪼개져서 12개씩
+C<-array(1:24,dim=c(2,4,3)) #1층 2층 3층 쪼개져서 8개씩
+nrow(B)
+ncol(B)
+dim(B)
+nrow(C)
+ncol(C)
+dim(C)
+length(C) #요소의 갯수
+
+#행렬처럼 이름 붙일때 dimnames list 이용!+면추가!!
+dimnames(B)<-list(c('1행','2행','3행'),
+              c('1얄','2얄','3열','4열'),c('1면','2면'))
+B
+dim(B) <- c(3,8)
+B#2면 사라지고 옆으로 붙음
+dim(B) <- c(3,4,2)
+B #원상복귀(reshape)
+
+attr(B,'dim')<-c(3,8) #dim(B) <- c(3,8) 같은 효과
+B
+
+## 10. 데이터 프레임 ★★★★★★★★★
+# (1) 데이터 프레임 생성
+student_id<-c('2013023024','2013023001','20103023002')
+student_name<-c('A','B','C')
+student_kor<-c(50,100,30)
+student_mat<-c(60,60,50)
+student_eng<-c(50,40,30)
+student_gender<-c('남','여','남')
+student<-data.frame(student_id,student_name,student_kor
+                    ,student_mat,student_eng,student_gender)
+student
+    #student_id student_name student_kor student_mat student_eng student_gender
+#1  2013023024            A       50        60            50          남
+#2  2013023001            B       100       60            40          여
+#3 20103023002            C       30        50            30          남
+sd<-edit(student) #저장은 안되고 콘솔창에만 보여주네
+
+# (2) 데이터프레임에 열 추가 및 삭제
+student$age<-c(20,25,30)
+student$live<-c('서울','부산','대구')
+student #age,live 열 추가 됨
+student$live<-NULL #열 삭제
+student
+
+# (3) 데이터프레임의 열 형 변환
+str(student)
+#학번을 문자에서 숫자로 변환
+student$student_id<-as.numeric(student_id)
+str(student)
+# gender factor형으로 변환
+student$student_gender<-factor(student$student_gender,levels=c('남','여'))
+str(student)
+
+str(student_data) # 구조보기
+summary(student_data) # 통계치 보기
+
+
+# (4) 데이터프레임의 열이름 변경 (모든열이름변경, 
+library(reshape)
+.libPaths() # install된 패키지가 설치된 폴더
+install.packages('reshape') #패키지 설치후  매모리에 로드
+library(reshape)
+#data.flame 이름 바꾸는 방법
+st
+st1<-rename(st,c('student_id'='id',
+       'student_name'='name','student_kor'='kor'
+       ,'student_eng'='eng','student_gender'='gender'))
+st1#하나에 써서 특정열이름 변경
+#id name kor eng gender
+#1 20211  Jin 100  99     남
+#2 20212 Eric  95  94     여
+#3 20213  Den  90  98     남
+#4 20214  Kei  85  84     여
+
+#열들의 이름 바꾸기
+#벡터와 비슷함
+names(student)#모든 열이름 변경
+names(student)<-c('id','name','kor','mat','eng','gender','age')
+names(student)
+student
+     #id        name kor mat eng  gender age
+#1  2013023024    A  50  60  50     남  20
+#2  2013023001    B 100  60  40     여  25
+#3 20103023002    C  30  50  30     남  30
+
+# (5) 데이터 프레임 합치기 : rbind(행합치기),cbind(열 합치기)
+#_______________________________
+#행렬에서도 사용가능
+A<-matrix(1:6,ncol=2)
+B<-matrix(1:3,ncol=1)
+C<-cbind(A,B) #열 합치기
+t(B)
+rbind(C,t(B))
+#________________________________
+A<-data.frame(name=c('이','건','한'),grade=c(100,40,60))
+B<-data.frame(name=c('정','한'),grade=c(40,30))
+C<-data.frame(home=c('서울','부산','대구','대전','대천천'))
+A
+B
+D<-rbind(A,B)
+D
+C
+cbind(C,D)
+
+# (6) 데이터프레임의 부분 데이터 조회
+D
+D<-rbind(D,D) #2회 실행_>10행 
+st
+names(st)<-c('id','name','kor','eng','gender')
+st[1,]
+st[,1] #벡터 형태로 변환
+st[,1,drop=FALSE] #데이터 프레임 형태도 변환
+st[1,2] #1행 2열 출력
+st[1:3,] #1행~3행 모든 데이터 출력
+st[-c(1,2,3),]  #1행~3행 제외한모든 데이터 출력
+st[2,]
+st[6,]
+st[,3] #벡터 형태로
+st[,3,drop=F] #데이터 프레임 형태로
+st[st$kor>90,]  #kor점수가 90점 이상인 모든 열 데이터
+st[st$kor>90,c('name','id')] 
+
+
+# subset함수 : 데이터프레임의 부분 데이터 조회
+?subset #data,matrix에서 사용가능
+#subset(x, subset, select, drop = FALSE, ...)
+st
+subset(st,st$eng>90) #eng가 90이상인 모든 열 데이터
+subset(st,subset=(st$eng>90))
+subset(st,subset=(st$eng>90&st$gender=='남'))#남,eng가 90이상인 모든 열 데이터
+st
+subset(st,select=c(1,4)) #1열,4열 출력
+subset(st,select=c(1:4)) #1~4열까지 출력
+subset(st,select=c('id','name','kor','eng')) #id:eng 안됨
+
+# kor이 90점이상인 여학생 데이터(id, name,kor,eng열만 출력)
+st
+subset(st,subset=(st$kor>90)) #kor이 90점이상인
+subset(st,subset=(st$kor>90& st$gender=='여'),select=c(1:4)) 
