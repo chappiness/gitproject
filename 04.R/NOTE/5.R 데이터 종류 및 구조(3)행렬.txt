@@ -1,0 +1,93 @@
+8.행렬_cf)벡터(1차원),행렬(2차원),data-frame(n차원)
+-form)matrix(data,nccol or nrow,byrow)
+ matrix(1:15,ncol=5), byrow는 F로 default 설정됨
+
+#행렬구조(byrow=F)(행우선으로 출력됨)
+#      [,1] [,2] [,3] [,4] [,5]
+#[1,]    1   4   7  10  13
+#[2,]    2   5   8  11  14
+#[3,]    3   6   9  12  15
+
+#행렬 구조(byrow=T)(열우선으로 출력됨)
+#      [,1] [,2] [,3] [,4] [,5]
+#[1,]   1   2    3    4    5
+#[2,]   6   7    8    9   10
+#[3,]  11  12  13  14  15
+
+-벡터에 names(data) 부여했듯이 
+-행렬도 이름 부여(꼭!! list 활용)
+방법1) 
+1)dimnames(matrix)<-list(c(a,b,c),c(e,f,h,g,k))
+방법2)
+1)colnames(matrix)<-c(e,f,h,g,k)
+2)rownames(matrix)<-c(a,b,c)
+방법3) 
+1)matrix(data,nccol or nrow,byrow,dinames=list(~))
+
+#행렬의 곱(%*%)
+서로 다른 두행렬이 곱해질때 행과 열이 맞아야 곱셈 가능
+(1x3)(3x2)
+
+#전치행렬(t)
+t(matrix) 행과열을 바꿔주는 행렬
+주로 정방행렬 만들기 위해서 쓰임>>역행렬연산
+t(matrix)%*%matrix:정방행렬(역행렬 연산 가능)
+
+#역행렬(solve)
+solve(matrix)
+역행렬과 원래 행렬이 곱하면 단위행렬(행렬 성분이 0,대각성분만 1인 행렬)
+matrix%*%solve(matrix)=solve(matrix)%*%matrix
+(byrow=F 기준)
+
+#단위 행렬:대각행렬을 구하는 diag() 함수 이용
+#diag(x = 1, nrow, ncol, names = TRUE)
+#---------------2 by2------
+     [,1] [,2]
+[1,]    1    0
+[2,]    0    1
+diag(rep(1,2))  #1을 두번쓰는 행렬
+diag(c(1,1))    
+diag(1,2)
+diag(1,2,2) 
+#---------------3by3------
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1
+diag(rep(1,3)) #1을 세번쓰는 행렬
+diag(1,3)
+diag(1,3,3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
