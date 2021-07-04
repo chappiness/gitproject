@@ -1,0 +1,56 @@
+#list,vector,matrix,data.frame/array
+#----------vector-------------
+vector<-c(1,2,3)
+vector
+#이름추가
+names(vector)<-c('A','B','C')
+vector
+vector[1]
+vector[2]
+vector[3]
+vector<-as.list(vector)
+vector
+class(vector)
+#----------list---------------
+list<-list(c(1,2,3),c(4,5,6),c(7,8,9))
+#이름추가
+names(list)<-c('A','B','C')
+list
+
+list[1] #list[1,]
+list[2] #list[2,]
+list[3] #list[2,]
+list[[1]][2]
+#----------matrix-------------
+matrix<-matrix(1:9,ncol=3) #행우선!!!byrow=F
+matrix  #정방행렬(n*n행렬)
+#이름추가(col,rownames or dimnames 이용)
+rownames(matrix)<-c('1행','2행','3행')
+colnames(matrix)<-c('1열','2열','3열')
+matrix
+dimnames(matrix)<-list(c('A','B','C'),c('D','E','F'))
+matrix
+matrix<-matrix(1:9,ncol=3,dimnames=list(c('A1','A2','A3')
+                                        ,c('B1','B2','B3')))
+matrix
+matrix1<-matrix(1:9,ncol=3,byrow=T) #열우선
+matrix1 #정방행렬(n*n행렬)
+matrix2<-matrix(c(c(5,12,13),c(4,5,2),c(2,3,5)),nrow=3)
+matrix2
+#----------array-------------
+array<-array(1:30,dim=c(3,5,2)) #행 열 면(층)
+array
+array[1,1,2]
+array[, ,1]
+array[, ,2]
+#----------data.frame-------------
+dataframe<-data.frame(kor=c(10,20,30),eng=c(40,50,60),mat=c(70,80,90))
+dataframe
+dataframe$sci<-c(30,40,30) #열 추가!
+dataframe[1,]
+dataframe[,1] #벡터형식으로 출력됨
+dataframe[,1,drop=F] #데이터 프레임 형식으로
+dataframe[2,]
+dataframe[,2] #벡터형식으로 출력됨
+dataframe[3,]
+dataframe[,3] #벡터형식으로 출력됨
