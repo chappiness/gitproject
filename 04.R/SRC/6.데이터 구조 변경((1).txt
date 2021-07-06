@@ -1,0 +1,229 @@
+airquality
+#     Ozone Solar.R Wind Temp Month Day
+#1      41     190  7.4   67     5   1
+#2      36     118  8.0   72     5   2
+#3      12     149 12.6   74     5   3
+str(airquality)
+View(airquality)
+#---2.데이터 구조 변경(melt,cast함수)---------------------------
+head(airquality)
+#for melt(열이름과 값을 variable,value 열에 저장된 형태)
+install.packages("reshape2") #melt함수 위해서
+library(reshape2)
+airquality.melt<-melt(airquality,id=c('Month','Day')) #melt(변수,id=기준,value로 초기화)
+head(airquality.melt)
+#   Month Day variable value
+#1    5    1    Ozone    41
+#2    5    2    Ozone    36
+#3    5    3    Ozone    12
+#4    5    4    Ozone    18
+#5    5    5    Ozone    NA
+
+airquality.melt<-melt(airquality,id=c('Month','Day'),value.name ='val')
+View(airquality.melt)#밑에 Solar.R Wind Temp 각각 value값이 존재 
+head(airquality.melt)
+#   Month Day variable val
+#1     5   1    Ozone  41
+#2     5   2    Ozone  36
+#3     5   3    Ozone  12
+#4     5   4    Ozone  18
+#5     5   5    Ozone  NA
+subset(airquality,Month==5 & Day==1)
+#Ozone Solar.R Wind Temp Month Day
+#1    41     190  7.4   67     5   1
+
+subset(airquality.melt,Month==5 & Day==1)
+#     Month Day variable   val
+#1       5   1    Ozone  41.0
+#154     5   1  Solar.R 190.0
+#307     5   1     Wind   7.4
+#460     5   1     Temp  67.0
+
+subset(airquality,Month==5 & Day==5)
+#    Ozone Solar.R Wind Temp Month Day
+#5    NA    NA    14.3   56     5   5
+
+subset(airquality.melt,Month==5 & Day==5)
+#     Month Day variable  val
+#5       5   5    Ozone   NA
+#158     5   5  Solar.R   NA
+#311     5   5     Wind 14.3
+#464     5   5     Temp 56.0
+
+#결측치 제거(결측치만 제거되는게 아니라 결측지가 있는 행이 사라짐)
+#----review 결측치----
+v<-c(1,2,3,NA)
+
+is.na(v) #F F F T
+#complete.case(v)/na.omit(v)/na.rm=T
+v1<-v[complete.cases(v)]
+mean(v1)
+v2<-na.omit(v)
+mean(v2)
+mean(v,na.rm=T)
+#---------------------
+
+airquality.melt<-melt(airquality,id=c('Month','Day'),na.rm=T)
+head(airquality.melt)
+edit(airquality.melt)
+
+#melt된 데이터를 원상 복구:dcast vs acast
+
+#dcast(결측치는 살리지 말자..)
+airquality.dc<-dcast(airquality.melt,Month+Day~variable)
+head(airquality.dc)
+#     Month Day Ozone Solar.R Wind Temp
+#1       5   1    41     190  7.4   67
+#2       5   2    36     118  8.0   72
+#3       5   3    12     149 12.6   74
+#4       5   4    18     313 11.5   62
+#5       5   5    NA      NA 14.3   56
+#6       5   6    28      NA 14.9   66
+
+#5월 1일 대기정보 데이터
+airquality.dc[1,]
+airquality.dc[airquality.dc$Month==5&airquality.dc$Day==1,]
+#Month Day Ozone Solar.R Wind Temp
+#1     5   1    41     190  7.4   67
+
+#acast()
+airquality.ac<-acast(airquality.melt,Month+Day~variable)
+airquality.ac
+      #Ozone Solar.R Wind Temp
+#5_1     41     190  7.4   67
+#5_2     36     118  8.0   72
+#5_3     12     149 12.6   74
+#5_4     18     313 11.5   62
+#5_5     NA      NA 14.3   56
+#5_6     28      NA 14.9   66
+
+#5월 1일 대기정보 데이터
+airquality.ac["5_1",]
+#Ozone Solar.R    Wind    Temp 
+#41.0   190.0     7.4    67.0 
+
+#______________________________________________
+#나도 해보기
+dataframe<-data.frame(name=c('가','나','다')
+                      ,kor=c(100,200,NA),
+                      eng=c(10,20,NA)
+                      )
+dataframe
+# name kor eng
+#1  가 100  10
+#2  나 200  20
+#3  다 NA  NA
+melt(dataframe,id='name') 
+#   name variable value   #name,variable,value
+#1   가      kor   100
+#2   나      kor   200
+#3   다      kor   NA
+#4   가      eng    10
+#5   나      eng    20
+#6   다      eng    NA
+#__________________________________________________
+student.melt<-melt(dataframe,id='name',na.rm=T) 
+student.melt
+#   name variable value
+#1   가      kor   100
+#2   나      kor   200
+#4   가      eng    10
+#5   나      eng    20
+#dcast 이용(결측치 제거하고 돌아옴)
+student.dc<-dcast(student.melt,name~variable)
+student.dc
+#name kor eng
+#1   가 100  10
+#2   나 200  20
+
+#acast()
+student.ac<-acast(student.melt,name~variable)
+student.ac
+#name kor eng
+#1   가 100  10
+#2   나 200  20
+
+#__________________________________________________
+
+#################데이터 구조 변경(데이터프레임) 예############
+df1<-read.csv('D:/5.10_cha/sharebigdata/전국 평균 평당 분양가격(2013년 9월부터 2015년 8월까지).csv')
+head(df1)
+table(is.na(df1))
+df1.melt<-melt(df1,id=c('지역'),value.name='price')
+head(df1.melt)
+#지역    variable   price
+#1 서울 X2013년12월 18189
+#2 부산 X2013년12월  8111
+#3 대구 X2013년12월  8080
+#4 인천 X2013년12월 10204
+
+#모든 데이터 4자리 더 복잡할수도 있다!#strsplit복습!!
+df1.melt$variable<-as.character(df1.melt$variable) #for 쪼개기 위해서
+
+#파생변수로 연도와 월(만들고 variable 버리면 됨)
+variable='X2013년12월'
+as.integer(substr(variable,2,5)) #문자를 숫자로 2번부터 5번까지 뽑아
+df1.melt$연도<-as.integer(substr(variable,2,5))
+head(df1.melt)
+
+#variable에서 월 뽑기
+variable='X2013년12월'
+strsplit(variable,"년")#>>>list #년 기준으로 잘라짐
+#[[1]]
+#[1] "x2013" " 12월"
+monthStr<-strsplit(variable,"년")[[1]][2]
+monthStr #" 12월"
+#monthStr<-substr(monthStr,1,2)
+monthStr<-substr(monthStr,1,nchar(monthStr)-1)
+monthStr
+as.integer(monthStr)
+
+getMonth<-function(variable){
+  monthStr<-strsplit(variable,"년")[[1]][2]
+  monthStr<-substr(monthStr,1,nchar(monthStr)-1)
+  monthStr
+  as.integer(monthStr)
+}
+getMonth('x2013년12월')
+sapply(df1.melt$variable,getMonth)
+#X2015년4월  X2015년4월  X2015년4월  X2015년4월  X2015년4월  X2015년4월 
+#4           4           4           4           4           4 
+#X2015년4월  X2015년5월  X2015년5월  X2015년5월  X2015년5월  X2015년5월 
+#4           5           5           5           5           5 
+#head(sapply(df1.melt$variable,getMonth))
+df1.melt$월<-sapply(df1.melt$variable,getMonth)
+edit(df1.melt)
+df1.melt$variable<- NULL
+head(df1.melt,2)
+#지역 price 연도 월
+#1 서울 18189 2013 12
+#2 부산  8111 2013 12
+
+###평 조정
+df2<-read.csv('D:/5.10_cha/sharebigdata/주택도시보증공사_전국 신규 민간아파트 분양가격 동향_20210531.csv')
+df2
+head(df2)
+str(df2)
+
+df2<-df2[df2$규모구분=='모든면적',] #모든행출력
+head(df2)
+df2$규모구분 <- NULL # 필요없는 변수 삭제
+str(df2)
+colnames(df2)<-c('지역','연도','월','price_per')
+
+#가격 숫자로 (지금은 케릭터)
+str(df2$price_per)
+#df2[df2$price_per=='',] 이해안감
+head(df2)
+df2$price_per<-as.integer(df2$price_per)
+#빈 스트링등 정수형으로 변환할수 없는 것은 NA로 처리
+colSums(is.na(df2))
+df2$price<-df2$price_per*3.3 #df1의 평단 가격이랑 맞출려고
+head(df2[,c('지역','연도','월','price')],2)#head(df1.melt,2)형식 똑같다 
+
+#지역 연도 월   price
+#1 서울 2015 10 19275.3
+#6 인천 2015 10 10437.9
+
+m<-rbind(df1.melt,df2[,c('지역','연도','월','price')])
+head(m)
