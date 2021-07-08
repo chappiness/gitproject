@@ -1,0 +1,108 @@
+각각 반의 영어 평균
+
+tapply(dataframe$eng,dataframe$number,mean)
+
+각각 반의 수학 평균
+
+tapply(dataframe$mat,dataframe$number,mean)
+   (ex) tapply(iris$Sepal.Length, iris$Species, mean)
+result)
+    #setosa versicolor  virginica 
+
+    #5.006      5.936      6.588 
+
+ tapply(iris$Petal.Length, iris$Species, summary)
+result)
+   $setosa
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+
+   1.000   1.400   1.500   1.462   1.575   1.900 
+
+     $versicolor
+
+      Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+
+      3.00    4.00    4.35    4.26    4.60    5.10 
+
+      $virginica
+
+        Min.   1st Qu.  Median Mean  3rd Qu.    Max. 
+
+        4.500   5.100   5.550   5.552   5.875   6.900 
+
+ - by : 1개이상의 열에 대해 1개의 함수로 그룹화 처리(1개 이상의 열 summary)
+   ex)by(iris[,1:4], iris$Species, summary)
+   ex)by(stu[,1:3],stu$number,summary)
+
+ - summaryBy : 1개이상의 열에 대해, 1개 이상의 함수로 1개 이상의 그룹화 처리
+    ex)summaryBy(Sepal.Length+Sepal.Width~Species,iris,FUN=c(mean,sd))
+    1반의 국,영,수 평균,표준편차
+    2반의 국,영,수 평균,표준편차
+    summaryBy(kor+eng+mat~number,data=stu,FUN=mean) (데이터 없어도됨)
+    summaryBy(kor+eng+mat~number,stu,FUN=c(mean,sd))
+
+
+ - aggregate : 1개이상의 열에 대해, 1개의 함수로 1개 이상의 그룹화 처리
+aggregate(iris[,1:4],by=list(iris[,5]),FUN=mean)
+
+ 
+
+ 
+
+★ doBy 패키지
+
+ - summaryBy : 1개이상의 열에 대해, 1개 이상의 함수로 1개 이상의 그룹화 처리
+  (ex)summaryBy(Sepal.width+Sepal.Length~Speices, iris)
+
+ - orderBy : 열(변수)기준 정렬한 데이터 프레임 - 내림차순 +오름차순
+   (ex)orderBy(~-Species+Sepal.Length, data=iris)
+
+ - sampleBy : 그룹별 데이터를 sampling +frac이 따라다님
+   (ex)sampleBy(~Species, data=iris, frac=0.1)
+
+★ 데이터 추출과 분리
+ - split(데이터 프레임, 분리조건이나 분리그룹변수) : list형태로 데이터 분리
+   (ex)split(iris, iris$Species)
+
+ - subset(데이터프레임, subset=행조건, select=출력될변수) : 데이터 추출
+#Sepal.Length가 4이상인 데이터만 추출
+subset(iris,subset=Sepal.Length>=4)
+ subset(iris,subset=Sepal.Length>=4,select=c('Sepal.Length','Petal.Length'))
+
+
+★ 데이터 합치기
+
+ - cbind() : 열합치기(컬럼합치기) 
+
+ - rbind() : 행합치기 열이 같아야됨
+
+ - merge() : 병합하기
+
+★ 데이터 정렬
+  data <-c(10,20,30,100,1,3)
+ - sort() : 정렬한 데이터를 반환
+   sort(data) 오름차순
+   (ex)sort(iris$Sepal.Length)
+   sort(data,decreasing=TRUE) 내림차순
+ - order() : 정렬한 색인을 반환
+sort(data)
+order(data)
+data[order(data)]=sort(data)
+(ex)order(iris$Sepal.Width, decreasing=T)
+
+ 
+★ 데이터 집계
+
+ - table : 그룹별 갯수 집계
+
+ - aggregate  : 1개이상의 열에 대해, 1개의 함수로 1개 이상의 그룹화 처리
+
+   (ex) aggregate(iris[,1:4], by=list(iris$Species), FUN=mean)
+
+ 
+★ 조건으로 색인찾기 : which(), which.min(), which.max()
+
+which(iris$Species=='setosa') #setosa데이터의 색인
+
+iris[which(iris$Species=='setosa'),] #setosa데이터
