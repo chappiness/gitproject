@@ -1,0 +1,243 @@
+iris
+class(iris)
+head(iris)
+#Sepal.Length  Sepal.Width
+#Petal.Length  Petal.Width 들의 평균
+#1반 2반 3반의 국영수과 
+apply(iris[,c(1:4)],2,mean)
+lapply(iris[,c(1:4)],mean) #list
+sapply(iris[,c(1:4)],mean) #vectoi or행렬
+apply(iris[,c(1:4)],2,median)
+#1반 2반 3반 국어만!
+#3. 데이터 그룹화 함수 적용
+tapply(iris$Sepal.Length,iris$Species,mean)
+tapply((iris[,1]),iris$Species,mean)
+tapply((iris[,2]),iris$Species,mean)
+
+#1반 2반 3반 2과목 이상 평균
+library(doBy)
+# (1) summaryBy : 1개이상의 열에 대해, 1개 이상의 함수로 
+#1개 이상의 그룹화 처리
+summaryBy(Sepal.Length+Sepal.Width~Species,data=iris,
+          FUN=c(mean,sd))
+
+# (2) orderBy : 열기준 정렬한 데이터 프레임
+# Sepal.Length기준으로 오름차순 정렬 data=iris
+head(orderBy(~Sepal.Length,data=iris)) #4.3 4.4 4.5
+
+# Sepal.Length, Petal.Length기준으로 오름차순 정렬
+orderBy(~Sepal.Length+Petal.Length,data=iris)
+
+# Species 알파벳 순, Species가 같은 경우 Sepal.Length 오름차순 정렬
+head(orderBy(~Species+Sepal.Length,data=iris))
+# Sepal.Length기준으로 내림차순 정렬
+head(orderBy(~-Sepal.Length,data=iris))
+
+# Sepal.Length기준으로 내림차순 정렬, Sepal.Length가 같으면 Species 알파벳순
+head(orderBy(~-Sepal.Length+Species,data=iris))
+# Sepal.Length기준으로 내림차순 정렬, Sepal.Length가 같으면 Petal.Length기준으로 내림차순 정렬
+head(orderBy(~-Sepal.Length-Petal.Length,data=iris))
+
+# (3) simpleBy : 그룹별 데이터를 sampling
+library(doBy)
+iris
+sampleBy(~Species,data=iris) #frac는 기본값이 10% 5/5/5
+sampleBy(~Species,data=iris,frac=0.2)#종별 20퍼씩 비복원적 추출출
+
+sample(1:150,10) #1~150중 10개 뽑기
+iris[sample(1:nrow(iris),10),] #인덱스 넣었으니 내용이
+sample(1:nrow(iris),10) #인덱스만
+
+#아이리스 150개중에 30개 추출
+sample(1:nrow(iris),30)
+iris[sample(1:nrow(iris),30),]
+
+
+## 4. Formula : ~ +
+## lm(종속변수 ~ 독립변수) :  선형회귀식 도출 함수 
+x <- c(1,  2, 3, 4, 5) # 독립변수(공부량)
+y <- c(20,45,55,82,99) # 종속변수(점수) 
+y <- c('C', 'C', 'B', 'B', 'A')
+y <- c(F,F,F,T,T) 
+plot(x, y)
+fit <- lm(y ~ x)
+fit
+# y = 19.5*x + 1.7
+lines(x, x*19.5+1.7, col="red")
+abline(fit, lty='dashed', lwd="3")
+
+# 독립변수가 2개
+x1 <- c(1,  2, 3, 4, 5)  # 독립변수(공부량)
+x2 <- c(10, 20, 3, 4, 5) # 독립변수(기출문제집 푼 갯수)
+y <- c(60, 80, 63, 84, 95) # x1과 x2 사이의 상관관계가 없다는 전제에서 독립변수를 2개
+lm(y ~ x1 + x2)
+# y = 11.083*x1 + 1.417*x2 + 31.250
+
+# datasets::cars
+cars # 속도에 따른 제동거리의 관계를 선형회귀식으로 도출하시오(그래프 시각화)
+class(cars)
+nrow(cars)
+plot(cars) # plot(cars$speed, cars$dist)과 동일
+fit <- lm(cars$dist ~ cars$speed)
+fit <- lm(dist ~ speed, data = cars)
+fit
+# dist_hat = 3.932 * speed - 17.579
+abline(fit, lty='dotted', lwd="3")
+lines(cars$speed, 3.932*cars$speed-17.579, col="red")
+
+### 5. 데이터분리
+## 5.1 split : 결과는 list형태
+split(iris, iris$Species) #각각 50개씩 모음
+iris.species <- split(iris, iris$Species) # 종별로 iris데이터를 분리
+iris.species # iris.species['setosa'], iris.species['versicolor'],.... list형태 반환
+m <- mean(iris$Sepal.Length) # Sepal.Length의 평균
+m
+iris$Sepal.Length
+iris.sepal <- split(iris, iris$Sepal.Length > m)
+iris.sepal 
+iris.sepal$'TRUE' # Sepal.Length가 평균보다 큰 그룹
+iris.sepal$'FALSE'# Sepal.Length가 평균이하인 그룹
+iris.sepal['FALSE']
+
+## 5.2 subset
+# Sepal.Length가 4이상인 데이터만 추출(Sepal.Length, Petal.Length, Species)
+subset(iris, subset=Sepal.Length>=4, select=c('Sepal.Length', 'Petal.Length', 'Species'))
+subset(iris, subset=Sepal.Length>=4, select=c(1,3,5))
+iris[iris$Sepal.Length>=4, c(1,3,5)]
+
+### 6. 데이터 합치기
+# 열합치기(컬럼합치기) cbind()
+# 행합치기             rbind()
+# 병합하기             merge()
+## 6.1 cbind(열합치기)
+( student.a <- data.frame(name=c('lee','kim'), score=c(100,90)) )
+( student.b <- data.frame(id=c(101, 102), gender=c('여','남')) )
+( student <- cbind(student.a, student.b)[,c(3,1,2,4)])
+
+## 6.2 rbind(행합치기)
+( student.a <- data.frame(name=c('lee', 'kim'), score=c(100,90)) )
+( student.b <- data.frame(name=c('yun', 'ham','kum'), score=c(95,85,80)) )
+( student <- rbind(student.a, student.b) )
+
+## 6.3 merge(병합하기)
+( student.a <- data.frame(name=c('lee', 'kim'), kor=c(100,90)) )
+( student.b <- data.frame(name=c('lee', 'kim'), eng=c(95,90), mat=c(94,80)))
+(student <- merge(student.b,student.a )) #kor 뒤에,kor 앞에
+
+( student.a <- data.frame(name=c('lee', 'park'), kor=c(100,90)) )
+( student.b <- data.frame(name=c('lee', 'kim'), eng=c(95,90), mat=c(94,80)))
+(student <- merge(student.a, student.b, all=T ))
+
+### 7. 데이터 정렬
+## sort() : 정렬된 데이터(1차원) 반환 / order() : 정렬된 데이터의 index를 반환
+data <- c(10,30,100,1,3)
+sort(data) # 오름차순 정렬
+sort(data, decreasing = TRUE) # 내림차순 정렬
+sort(iris$Sepal.Length)
+
+data <- c(10,30,100,1,3)
+names(data) <- c('1번째','2번째','3번째','4번째','5번째')
+data
+sort(data)
+order(data) # c(4,5,1,2,3)
+data[order(data)] # sort(data)
+
+# iris데이터를 Sepal.Length기준으로 내림차순 정렬
+orderBy(~-Sepal.Length, data=iris) # (1)
+#sort내림차순
+#order 인덱스가 대신 나옴
+sort(iris$Sepal.Length, decreasing = T) # Sepal.Length기준으로 내림차순 정렬
+order(iris$Sepal.Length, decreasing = T) # Sepal.Length기준으로 내림차순 정렬한 idx
+iris[order(iris$Sepal.Length, decreasing = T), ] #  (1)과 동일
+
+# iris데이터를 Sepal.Length기준으로 내림차순 정렬 (단, Sepal.Length, Species)
+orderBy(~-Sepal.Length, data=iris)[,c('Sepal.Length','Species')]
+iris[order(iris$Sepal.Length, decreasing = T), c('Sepal.Length','Species')]
+
+# 문1. emp데이터셋에서 월급이 많은 순으로 ename,sal을 추출
+emp[order(emp$sal, decreasing = T), c('ename', 'sal')]
+
+# 문2. emp데이터셋에서 월급이 많은 top 5명의 ename, sal을 추출
+head(emp[order(emp$sal, decreasing = T), c('ename', 'sal')], 5)
+emp[order(emp$sal, decreasing = T), c('ename', 'sal')][1:5,]
+
+# 문3. emp데이터셋에서 월급이 적은 top 5명의 ename, sal을 추출
+tail(emp[order(emp$sal, decreasing = T), c('ename', 'sal')], 5)
+head(emp[order(emp$sal), c('ename', 'sal')], 5)
+emp[order(emp$sal), c('ename', 'sal')][1:5,]
+emp[order(emp$sal, decreasing = T), c('ename', 'sal')][nrow(emp)-5:nrow(emp),]
+
+### 8. 데이터 프레임 이름 생략하기
+## 8.1 with절, within절
+iris.temp <- iris
+iris.temp[c(1,3),1] <- NA
+head(iris.temp, 3)
+# Sepal.Length의 종별 중앙값
+mps <- tapply(iris.temp$Sepal.Length, iris.temp$Species, FUN=median, na.rm=T)
+mps['setosa']
+mps['versicolor']
+mps['virginica']
+# iris.temp$Sepal.Length2 <- iris.temp$Sepal.Length # Sepal.Length가 NA가 아닐 경우
+# iris.temp$Sepal.Length2 <- mps[iris.temp$Species] # Sepal.Length가 NA일 경우 
+
+#iris.temp$Sepal.Length2 <- ifelse(is.na(iris.temp$Sepal.Length),
+#                                  mps[iris.temp$Species], 
+#                                  iris.temp$Sepal.Length)
+#head(iris.temp[,c('Sepal.Length','Sepal.Length2')], 3)
+
+head(iris.temp)
+## with절 Sepal.Length의 결측치가 대치된 결과값 반환
+## within절 : Sepal.Length의 결측치가 대치된 데이터 프레임이 반환
+iris.temp$Sepal.Length2 <- with(iris.temp, {
+  Sepal.Length <- ifelse(is.na(Sepal.Length), mps[Species], Sepal.Length)
+})
+head(iris.temp)
+iris.temp <- within(iris.temp, {
+  Sepal.Length <- ifelse(is.na(Sepal.Length), mps[Species], Sepal.Length)
+})
+head(iris.temp)
+
+## 8.2 attach(), detach()
+attach(iris) # 지금부터는 iris$를 생략하셔도 됨
+summary(Species)
+find("Species")
+Sepal.Length
+tapply(Petal.Length, Species, mean)
+detach(iris) # attach 기능 해제
+
+### 9. 데이터 집계
+## 9.1 table() : 카테고리별 갯수 집계
+table(iris$Species) # 종별 갯수
+
+# InsectSprays 데이터 셋에서 spray 별 집계
+table(InsectSprays$spray)
+
+# emp데이터 셋에서 deptno별 집계
+table(emp$deptno)
+
+## 9.2 aggregate() : 1개이상의 열에 대해, 1개 이상의 그룹화 처리 (적용함수는 1씩)
+aggregate(iris[,1:4], by=list(iris[,5]), FUN=mean)
+tapply(iris$Sepal.Length, iris$Species, mean)
+by(iris$Sepal.Length, iris$Species, mean)
+summaryBy(Sepal.Length+Petal.Length ~ Species, data=iris, FUN=mean)
+
+# 보험회사의 고객들의 보험금 청구 데이터에서 고객별 입원일 조회
+cust_id <- c(1001, 1002, 1001, 1003, 1002, 1004, 1005, 1001, 1002, 1001)
+hos_day <- c(2,      3,    20,   5,     1,    8,    2,    2,    3,    2)
+data <- data.frame(cust_id, hos_day)
+data
+day_per_cust <- aggregate(data$hos_day, by=list(data$cust_id), FUN=sum)
+day_per_cust 
+class(day_per_cust)
+names(day_per_cust) <- c('cust_id', 'hos_day')
+day_per_cust
+day_per_cust[order(-day_per_cust$hos_day), ]
+
+### 10. 조건으로 색인찾기 : which(), which.min(), which.max()
+which(iris$Species=='setosa') # setosa 데이터의 색인
+iris[which(iris$Species=='setosa'), ] # setosa 데이터터
+which.min(iris$Sepal.Length)  # Sepal.Length 최소값이 있는 데이터의 색인
+iris[which.min(iris$Sepal.Length),]
+
+which.max(iris$Sepal.Length)  # Sepal.Length 최대값이 있는 데이터의 색인
+iris[which.max(iris$Sepal.Length),]
