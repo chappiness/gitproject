@@ -1,0 +1,253 @@
+#1.문제 1~10사이의 벡터 만들어서 V1 변수에 저장
+v1<-c(1:10)
+v2<-2*v1+1
+v2
+max(v2) #최대
+min(v2) #최소
+mean(v2) #평균
+sum(v2)  #합
+v3<-v2[-5] #5항 제외
+
+#2.10~38 사이의 숫자 2씩 증가한 벡터 생성
+#3행 5열 매트릭스 만들어 m1에 저장(헹우선)
+v3<-seq(10,38,2)
+v3
+matrix<-matrix(v3,ncol=3)
+?matrix
+###### [,1] [,2] [,3]
+#[1,]   10   20   30
+#[2,]   12   22   32
+#[3,]   14   24   34
+#[4,]   16   26   36
+#[5,]   18   28   38
+
+m2<-v3+100
+m2
+matrix(m2,ncol=3)
+v
+m2
+max(matrix)
+min(matrix)
+max(matrix[1:5,]) #행단위에서 최대값
+min(matrix[,1:3]) #열단위에서 최소값
+
+#3.seq 또는 rep 이용
+#1)1,3,5,7,9
+seq(1,9,2)
+#2)1,1,1,1,1
+#rep(x, times = 1, length.out = NA, each = 1)
+rep(1,5)
+#3)1,2,3,1,2,3,1,2,3
+rep(1:3,3)
+#4)1,1,2,2,3,3,4,4
+rep(1:4,each=2)
+
+#4.1~10(3씩 즈증가) 벡터로 정의.a,b,c,d 이름 부여
+c<-seq(1,10,3)
+c
+#벡터 이름 붙이기 names(vector)
+names(c)<-c('A','B','C','D')
+c
+
+#5 1~100 중 7개의 중복되지 않는 데이터 추출 count라는 벡터 생성,
+#week.kornames이라는 이름으로 일~토 밗을 벡터로 만든다.
+#일요일:21 월요일:40 화요일:11
+a<-sample(1:100,7)
+#[1] 35  2 75 69 65 15 30
+b<-c('일','월','화','수','목','금','토')
+names(a)<-b
+a
+#값이 가장 큰 요일의 명칭
+max(b)
+
+#값이 가장 작은 요일의 명칭
+min(b)
+a[2]
+#50보다 큰 값에 해당하는 요일의 명칭
+a>50 #F/F/T/T/T/F/F
+b[a>50]
+
+#6,7다음 행렬을 만드시오
+#     [,1] [,2] [,3]
+#[1,]    1    4    7
+#[2,]    2    5    8
+#[3,]    3    6    9
+m<-matrix(1:9,ncol=3)
+m
+n1<-c(1,2,3)
+n2<-c(4,5,6)
+n3<-c(7,8,9)
+matrix(c(n1,n2,n3),ncol=3)
+cbind(n1,n2,n3)
+
+#8.6번의 행렬에 행이름 열이름을 추가하시오
+
+n<-matrix(1:9,byrow=T,ncol=3,dimnames=list(c('row1','row2','row3'),c('col1','col2','col3')))
+n
+
+#9.2행 3열 매트릭스를 생성하시오,행과열 각각 하나씩 추가하시오
+#     [,1] [,2] [,3]
+#[1,] "a"  "c"  "e" 
+#[2,] "b"  "d"  "f" 
+a<-matrix(letters[1:6],ncol=3)
+a
+b<-matrix(c('x','y','z'),ncol=3)
+b
+c<-matrix(c('s','p'))
+c
+rbind(a,b) #행 합치기
+cbind(a,c) #열 합치기
+
+#10.2행3열 4면(층) 배열 만들기
+array<-array(c(1:24),dim=c(2,3,4))
+array[2,,]#각 층마다 2행의 데이터
+array[,1,]#각 층마다 1열의 데이터
+array[,,3] #3층 모든 데이터 출력
+
+b<-array*100
+b
+array[1,2:3,4] #4층의 모든 데이터들에 100을 곱한 결과
+array[1,c(2,3),4]
+c<-array[2,,2]+100#2층의 2행 데이터에 100을 더한다.
+c
+d<-array[,,1]-2 #1층의 모든 데이터들의 값에 2를 뺀다.
+d
+e<-array*10
+e
+rm(array) #배열 삭제
+
+#11.데이터프레임 만들기(5행 2열)
+dataframe<-data.frame(x=c(1:5),y=c(seq(2,10,2)))
+dataframe
+#x  y
+#1 1  2
+#2 2  4
+#3 3  6
+#4 4  8
+#5 5 10
+
+#12데이터프레임 만들기(5행3열)
+data.frame(col1=c(1:5),col2=c(letters[1:5]),co13=c(6:10))
+
+#13
+data<-data.frame(제품명=c('사과','딸기','수박'),가격=c(1800,1500,3000),판매량=c(24,38,13))
+##제품명 가격 판매량
+#1   사과 1800     24
+#2   딸기 1500     38
+#3   수박 3000     13
+
+#14 과일들 가격 평균,판매량 평균
+mean(data[,2])
+mean(data[,3])
+
+#15 데이터 유형 확인하기
+data<-data.frame(name=c('potter','elsa','gates','wendy','ben'),
+           gender=factor(c('m','f','f','m','f')),
+           math=c(80,90,100,40,50))
+str(data)
+data$stat<-c(76,73,95,82,35)
+data$score<-data$math+data$stat
+data$grade<-ifelse(data$score>150,'a',(ifelse(data$score<100,'c','b')))
+data
+
+#16.리스트 이용하기
+list<-list(name='scott',sal=3000)
+#$name
+#[1] "scott"
+
+#$sal
+#[1] 3000
+
+result1<-2*list[[2]][1]
+result1
+#17.리스트 이용하기(2)
+list<-list('scott',c(100,200,300))
+list
+#[[1]]
+#[1] "scott"
+
+#[[2]]
+#[1] 100 200 300
+list[[1]][1]
+list[[2]][1]
+list[[2]][2]
+list[[2]][3]
+
+#18.A를 alpha 대체하는 리스트(3)
+list<-list(c(3,5,7),c('a','b','c'))
+list
+list[[2]][1]='alpha'
+list
+
+#19.첫번째원소의 각 값에 10을 더한다.
+list<-list(alpha=0:4,beta=sqrt(1:5),gamma=log(1:5))
+list
+list[[1]][1]=list[[1]][1]+10
+  list[[2]][1]=list[[2]][1]+10
+  list[[3]][1]=list[[3]][1]+10
+list
+
+#20.전체 평균을 구해라
+list<-list(math=list(95,90),writing=list(90,85),reading=list(85,80))
+a<-unlist(list)
+avg=a[1]+a[2]+a[3]+a[4]+a[5]
+avg
+
+#21.iris의 타입 구조 차원 변수이름,기본통계량 확인
+class(iris)
+str(iris)
+dim(iris)
+colnames(iris)
+#[1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species" 
+apply(iris[,1:4],2,mean)
+#Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+#5.843333     3.057333     3.758000     1.199333 
+
+apply(iris[,1:4],2,sd)
+#Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+#0.8280661    0.4358663    1.7652982    0.7622377 
+
+#22.iris 데이터 정렬
+library(doBy)
+orderBy(~-Petal.Length,data=iris)
+orderBy(~-Sepal.Width,data=iris)
+
+#23iris데이터 종별 데이터 개수 출력
+table(iris$Species)
+#setosa versicolor  virginica 
+#50         50         50
+
+#24.종별 Sepal.Length의 합을 출력
+tapply(iris$Sepal.Length,iris$Species,FUN=sum)
+#setosa versicolor  virginica 
+#250.3      296.8      329.4 
+
+summaryBy(Sepal.Length~Species,data=iris,FUN=sum)
+#Species Sepal.Length.sum
+#1     setosa            250.3
+#2 versicolor            296.8
+#3  virginica            329.4
+
+aggregate(iris[,1],by=list(iris[,5]),FUN=sum)
+#Group.1     x
+#1     setosa 250.3
+#2 versicolor 296.8
+#3  virginica 329.4
+
+#25.iris 각 종류의 평균을 출력
+summaryBy(Sepal.Length+Sepal.Width+
+            Petal.Length+Petal.Width~Species,data=iris,FUN=mean)
+#Species Sepal.Length.mean      Sepal.Width.mean  Petal.Length.mean
+#1     setosa         5.006            3.428             1.462
+#2 versicolor         5.936            2.770             4.260
+#3  virginica         6.588            2.974             5.552
+#Petal.Width.mean
+#1        0.246
+#2        1.326
+#3        2.026
+aggregate(iris[,1:4],by=list(iris[,5]),FUN=mean)
+
+#Group.1 Sepal.Length Sepal.Width Petal.Length Petal.Width
+#1     setosa        5.006       3.428        1.462       0.246
+#2 versicolor        5.936       2.770        4.260       1.326
+#3  virginica        6.588       2.974        5.552       2.026
