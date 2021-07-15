@@ -1,0 +1,159 @@
+#### 데이터 구조 변경 (melt, cast함수) ####
+airquality
+head(airquality)
+#    Ozone Solar.R  Wind Temp  Month  Day
+#1    41     190     7.4   67     5   1
+#2    36     118     8.0   72     5   2
+#3    12     149     12.6  74     5   3
+
+install.packages("reshape2")
+library(reshape2)
+airquality.melt<-melt(airquality,id=c('Month','Day'),value.name ='val')
+head(airquality.melt)
+#Month Day variable val
+#1     5   1    Ozone  41
+#2     5   2    Ozone  36
+#3     5   3    Ozone  12
+#4     5   4    Ozone  18
+
+#melt를 통해 바뀐 구조(5월 5일 데이터)
+subset(airquality,Month==5&Day==5)
+#   Ozone Solar.R Wind Temp Month Day
+#5    NA   NA    14.3   56     5   5
+
+subset(airquality.melt,Month==5&Day==5)
+#      Month Day variable  val
+#5       5   5    Ozone   NA
+#158     5   5  Solar.R   NA
+#311     5   5     Wind 14.3
+#464     5   5     Temp 56.0
+
+#결측치 제외하고 나옴
+melt1<-melt(airquality,id=c('Month','Day'),na.rm=T)
+head(melt1)
+
+# melt된 데이터를 원상 복구 : dcast vs. acast
+airquality.dc<-dcast(airquality.melt,Month+Day~variable)
+#####Month Day Ozone Solar.R Wind Temp
+#1       5   1    41     190  7.4   67
+#2       5   2    36     118  8.0   72
+#3       5   3    12     149 12.6   74
+#4       5   4    18     313 11.5   62
+#5       5   5    NA      NA 14.3   56
+#6       5   6    28      NA 14.9   66
+airquality.dc[airquality.dc$Month==5 &airquality.dc$Day==1,]
+subset(airquality.dc,Month==5 & Day==1)
+
+airquality.ac<-acast(airquality.melt,Month+Day~variable)
+airquality.ac
+#Ozone Solar.R Wind Temp
+#5_1     41     190  7.4   67
+#5_2     36     118  8.0   72
+#5_3     12     149 12.6   74
+#5_4     18     313 11.5   62
+seq(10,70,10)
+#1.7월 일주일 간 날씨,온도,습도
+weather<-data.frame(year=c(rep(2021,7)),month=c(rep(7,7)),day=c(seq(1,7)),
+                    humidity=c(seq(10,70,10)),temp=c(seq(70,10,-10)))
+weather
+#   year month day humidity temp
+#1 2021     7   1       10   70
+#2 2021     7   2       20   60
+#3 2021     7   3       30   50
+#4 2021     7   4       40   40
+#5 2021     7   5       50   30
+#6 2021     7   6       60   20
+#7 2021     7   7       70   10
+weather.melt<-melt(weather,id=c('year','month','day'),value.name ='val')
+weather.melt
+####year month day variable val
+#1  2021     7   1 humidity  10
+#2  2021     7   2 humidity  20
+#3  2021     7   3 humidity  30
+#4  2021     7   4 humidity  40
+#8  2021     7   1     temp  70
+#9  2021     7   2     temp  60
+#10 2021     7   3     temp  50
+dcast(weather.melt,year+month+day~variable)
+#year month day humidity temp
+#1 2021     7   1       10   70
+#2 2021     7   2       20   60
+#3 2021     7   3       30   50
+#4 2021     7   4       40   40
+#5 2021     7   5       50   30
+#6 2021     7   6       60   20
+#7 2021     7   7       70   10
+acast(weather.melt,year+month+day~variable)
+#humidity temp
+#2021_7_1       10   70
+#2021_7_2       20   60
+#2021_7_3       30   50
+#2021_7_4       40   40
+#2021_7_5       50   30
+#2021_7_6       60   20
+#2021_7_7       70   10
+
+### 데이터 구조 변경 예
+df1<-read.csv('D:/R1/코딩/bigdata/전국 평균 평당 분양가격(2013년 9월부터 2015년 8월까지).csv')
+df1
+table(is.na(df1))
+colSums(is.na(df1))
+colnames(df1)
+head(df1)
+edit(df1)
+df1.melt<-melt(df1,id='지역',value.name='price')
+edit(df1.melt)
+
+#-----기간 빼기 연습-----------------------
+variable<-'X2013년7월'
+as.integer(substr(variable,2,5))
+a<-strsplit(variable,'년')[[1]][2]
+a
+substr(a,1,nchar(a)-1)
+
+data="2013년 12월 24일"
+a<-as.integer(substr(data,1,4)) #2013
+b<-strsplit(data,'2013년 ')[[1]][2]
+b
+c<-strsplit(b,'24일')[[1]][1]
+c
+c1<-substr(c,1,nchar(c)-2)
+d<-strsplit(b,'12월')[[1]][2]
+e<-substr(d,2,nchar(d)-1)
+data.frame(c(a,c1,e))
+#-----------------------------------------
+#"년도 빼기"
+df1.melt[,'variable']
+df1.melt$년<-as.integer(substr(df1.melt$variable,2,5))
+str(df1.melt)
+#'월 빼기'
+df1.melt
+getMonth <- function(variable){
+  monthStr <- strsplit(variable,'년')[[1]][2]
+  monthStr <- substr(monthStr, 1, nchar(monthStr)-1)
+  return(as.integer(monthStr))
+}
+df1.melt$variable<-as.character(df1.melt$variable)
+getMonth('X2013년12월')
+df1.melt$월 <-sapply(df1.melt$variable,getMonth)
+edit(df1.melt)
+df1.melt$variable <- NULL
+head(df1.melt)
+
+df2<-read.csv("D:/R1/코딩/bigdata/주택도시보증공사_전국 신규 민간아파트 분양가격 동향_20210531.csv")
+head(df2)
+df2 <- df2[df2$규모구분=='모든면적',]
+df2
+df2$규모구분 <- NULL # 필요없는 변수 삭제
+head(df2)
+colnames(df2)<-c('지역','년','월','price_per_meter')
+head(df2)
+colSums(is.na(df2))
+str(df2)
+df2$price_per_meter<-as.integer(df2$price_per_meter)
+df2$price<-3.3*df2$price_per_meter
+head(df2)
+head(df1.melt)
+df<-rbind(df1.melt,df2[,c('지역','년','월','price')])
+
+edit(df)
