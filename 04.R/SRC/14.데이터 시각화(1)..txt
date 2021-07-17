@@ -1,0 +1,228 @@
+#────────────────────────────#
+##### 8장. 데이터 시각화 #####
+#────────────────────────────#
+#### 1. 시각화 개요 : 원본데이터나 분석된 결과 데이터를 그래프로 표현. 사용자에게 효과적으로 정보전달 목적 ####
+
+## 1.1 R의 그래픽 시스템
+# (1) base graphics system : 전통적인 함수 이용(고수준 그래프 함수, 저수준 그래프 함수)
+# 그래프 종류별 함수가 각기 달라 정교한 그래프 이용시 노력 필요
+# (2) grid graphic system - base graphics system의 한계 극복을 위해 만든 패키지(ggplot2)
+# 유연한 그래프 환경 제공
+
+# ex.
+boxplot(mtcars$mpg) # 고수준 그래프 함수
+plot(mtcars$wt, mtcars$mpg) # 고수준 그래프 함수
+fit <- lm(mtcars$mpg ~ mtcars$wt)
+fit <- lm(mpg ~ wt, data=mtcars)
+abline(fit, col="red") # 저수준 그래프 함수
+
+library(ggplot2) 
+ggplot(data = mtcars, aes(x=wt, y=mpg)) + # grid graphic system
+  geom_point(col="blue", pch=2) +
+  labs(title="첫 산점도 예제") +
+  geom_smooth(method="lm")
+
+ggplot(data=iris, aes(x=Species, y=Sepal.Length)) +
+  geom_boxplot(fill="red")
+
+## 1.2 그래프 함수
+# 고수준 함수 : plot, barplot, boxplot, hist, pie,....
+# 그래프 함수 호출할 때마다 새로운 그래프를 시작
+# 저수준 함수 : lines, abline(회귀라인), point, text
+# 새로운 그래프를 생성하지 않음. 이미 그려진 그래프 위에 점, 라인, 글씨..
+
+## 1.3 그래프 파라미터 : 그래프를 그리는 함수들은 다양한 파라미터가 존재. par()함수를 통해 변경
+# (1) par() : 그래프를 조정하거나 특성을 지정 ex.bty(그래프박스유형), 선굵기, 색상...
+# par()함수의 리턴값은 실행전 특성 리턴.
+?par
+cars
+plot(cars)
+oldPar <- par(bty='L') # 파라미터 지정전 객체를 저장 
+plot(cars) # 변경된 파라미터 대로 그래프가 그려짐
+plot(iris)
+par(oldPar) # oldPar 설정으로 복귀귀
+plot(cars)
+?plot
+plot(cars, xlab="x label", ylab="y label", main="제목")
+fit <- lm(dist~speed, data=cars)
+abline(fit, col="saddlebrown", lwd=4, lty="dashed")
+?par
+colors()
+# col : 1-black,2-red,3-green,4-blue,5-cyan,6-purple,7-yellow,8-gray
+
+# par함수의 다른 파라미터 사용 예
+x <- 1:100
+y1 <- rnorm(100) # 평균0이고 표준편차가 1인 수 100개 추출(표준정규분포)
+y2 <- rnorm(100)+100 # 평균이 100이고 표준편차가 1인 수 100개 추출출
+?par
+oldPar <- par(mar=c(5,5,5,5)) # 그래프 여백(하,좌,상,우)
+?plot
+plot(x, y1, pch=21, type="b", col="red", bg="pink", 
+     ylim = c(-8,2), yaxt="n", bty="n", ylab="")
+# xlim, ylim : x, y축 눈금 조정
+# yaxt : y축 눈금 없애기
+# bty : 그래프 박스 type : o, ], L, 7, C
+axis(side=2, at=c(-2,0,2), col="red")
+# side :1하,2좌, 3상, 4우
+# at 축과 눈금이 그려질 위치
+mtext("red line(y1)", side=2, line=2, at=0, col=2)
+
+par(new=TRUE) #기존그래프 지우지 않고 덧그림
+
+plot(x, y2, pch=20, type="b", col="blue",
+     yaxt="n", ylim=c(98,108), ylab="", bty="n")
+axis(side=4, at=c(98,100,102), col="blue")
+mtext("blue line(y2)", side=4, line=2, at=100, col="blue")
+
+par(oldPar) # 그래프 영역 설정 원상 복구
+
+#### 2. 고수준 그래프 함수 #### (base graphic system)
+## 2.1 plot : type에 따라 여러 유형의 그래프를 그림. 산점도 함수
+# 3행2열로 그래프 영역 분리하고 type속성에 따른 그래프 
+?par # mfrow
+oldPar <- par(mfrow=c(2,3))
+plot(cars, type="p", main="p 타입") # 일반적 산점도
+plot(cars, type="l", main="l 타입") # 추세선
+plot(cars, type="b", main="b 타입") # 선과 점 겹치지 않게게
+plot(cars, type="s", main="s 타입") # 계단 형태
+plot(cars, type="n", main="n 타입") # 안 보여여
+plot(cars, type="o", main="o 타입") # 선과 점 겹치게
+par(oldPar)
+
+plot(cars, main="speed and Stopping Dsitance of cars",
+     xlab="speed(mph)", ylab="stopping distance(ft)",
+     las=1)
+#las;축눈금라벨방향 0축과평행, 1가로 2축과수직 3세로
+?plot
+
+## 2.2 barplot : 막대그래프
+datasets::VADeaths
+class(VADeaths)
+VADeaths
+rownames(VADeaths)
+?par
+?barplot
+barplot(VADeaths, main="버지니아 사망율", font=2,
+        border="red", legend=rownames(VADeaths),
+        density=50, angle=c(10,30,50,70,120),
+        col=c("#0000FF","azure","red","pink","cyan"))
+colors()
+# font : 1기본값 2굵게 3이텔릭체 4굵은이텔릭체
+# legend : 오른족 상단 범례
+# density : 막대그래프 안에 칠할 선 수
+# angle : 빗금 각도
+barplot(VADeaths, main="버지니아 사망율", font=2,
+        border="red", legend=rownames(VADeaths),
+        density=60, angle=c(10,30,50,70,120),
+        beside=TRUE, col=rainbow(5))
+# beside=TRUE : 막대 선분을 분리
+# col에는 R에서 제공되는 파레트 함수사용
+
+
+# 파레트 패키지 이용
+install.packages("RColorBrewer")
+library(RColorBrewer)
+display.brewer.all()
+pal <- brewer.pal(5, "Set1")
+barplot(VADeaths, main="버지니아 사망율", font=2,
+        border="red", legend=rownames(VADeaths),
+        density=60, angle=c(10,30,50,70,120),
+        beside=TRUE, col=pal)
+
+## 2.3 boxplot : 상자그림(상자도표, 사분위수 그래프)
+datasets::InsectSprays
+class(InsectSprays)
+names(InsectSprays) <- c('cnt','spray')
+InsectSprays
+rm(InsectSprays)
+head(InsectSprays)
+boxplot(InsectSprays$count)
+# boxplot(InsectSprays$count~InsectSprays$spray)
+boxplot(count ~ spray, data=InsectSprays, col=pal)
+tapply(InsectSprays$count, InsectSprays$spray, median)
+by(InsectSprays$count, InsectSprays$spray, summary)
+tapply(InsectSprays$count, InsectSprays$spray, summary)
+library(doBy)
+?summaryBy
+summaryBy(count~spray, data=InsectSprays, FUN=summary)
+aggregate(InsectSprays$count, by=list(InsectSprays$spray), FUN=summary)
+
+## 2.4 hist : 히스토그램(도수분포표 - 연속된 데이터의 도수분포)
+x <- c(1,1, 2,2,2, 3, 4,4 )
+hist(x)
+hist(x, breaks=c(1,2,3,4,5,6))
+# breaks : 구간
+h <- hist(x, breaks=c(0.5,1.5,2.5,3.5,4.5),
+          ylim=c(0,3.5))
+h
+text(h$mids, h$counts, paste(h$counts, '개', sep=''), col="blue", adj=c(0.5, -0.5)) # adj 위치 재조정
+
+text(h$mids, h$counts, paste(h$counts, '개', sep=''), adj=c(0,0), col="red") # 텍스트의 왼쪽아래가 기준점
+text(h$mids, h$counts, paste(h$counts, '개', sep=''), adj=c(0,1), col="black") # 텍스트의 왼쪽위가 기준점
+text(h$mids, h$counts, paste(h$counts, '개', sep=''), adj=c(1,0), col="green") # 텍스트의 오른쪽 아래가 기준점
+text(h$mids, h$counts, paste(h$counts, '개', sep=''), adj=c(1,1), col="purple") # 텍스트의 오른쪽 위가 기준점
+
+islands # 1만 평방마일을 초과하는 주요대륙 넓이 정보보
+class(islands)
+is.vector(islands)
+hist(islands)
+hist(sqrt(islands), breaks = c(2, 30, 70,100,140))
+
+set.seed(14)
+x <- rnorm(1000) # 평균0이고, 표준편차가 1인 데이터 1000개 
+hist(x)
+
+## 2.5 pie
+x <- c(20, 30, 30, 20, 15, 5)
+pie.lang <- x/sum(x)
+pie.lang
+pie.lang <- c(0.1, 0.3, 0.2,0.15,0.1,0.15)
+sum(pie.lang)
+
+names(pie.lang) <- c('c','java','python','R','Oracle','Hadoop')
+pie(pie.lang) # 반시계방향으로
+pie(pie.lang, clockwise = TRUE, col=c("red","orange","yellow","green","blue","navy"))
+
+pie(pie.lang, clockwise = TRUE, col=brewer.pal(6, "Set3")) # pdf 68.
+pie(pie.lang, clockwise = TRUE, col=rainbow(6)) #pdf 19.
+
+## 2.6 mosaicplot : 배열형식의 표를 이용해 모자이크 플롯 출력
+Titanic
+class(Titanic)
+mosaicplot(~Sex+Age+Survived, data=Titanic, color=T)
+?mosaicplot
+mosaicplot(~Class+Age+Survived, data=Titanic, color=T)
+
+#### 3. 저수준 그래프 함수 ####
+## 3.1 points
+plot(-4:4, -4:4, type="n")
+?par
+points(rnorm(100),rnorm(100), pch=3, col="brown")
+
+## 3.2 lines : 선
+head(cars,10) # speed별 제동거리
+plot(cars, main="속도와 제동거리와의 관계",pch=20)
+fit <- lm(dist ~ speed, cars)
+fit
+lines(cars$speed, cars$speed*3.932-17.579, col="blue", lty="dashed", lwd=2)
+
+## 3.3 abline : 회귀식선
+abline(fit, col="red", lwd=4, lty="dotted")
+# lwd : line width (?par 참조)
+# lty : line type
+
+## 3.4 text(x, y, 출력할텍스트, 그외옵션들)
+
+plot(-1:1, -1:1, type="n", xlab="X")
+points(0,0, pch=3, cex=4, lwd=3) # cex크기
+
+text(0,0,"hello")
+text(0,0,"red", col="red", font=2,   cex=3, adj=c(0,0))
+text(0,0,"blue", col="blue", font=2, cex=3, adj=c(1,0))
+text(0,0,"green", col="green", font=2, cex=3, adj=c(0,1))
+text(0,0,"purple", col="purple", font=2, cex=3, adj=c(1,1))
+# 수식 출력
+plot(1:5,1:5, type="n")
+text(3,3, 'A', adj=c(0,0), col="red")
+text(1.5, 4,  expression(hat(beta)==(X^t)*X ^ {-1} * X^t*y), 
+     adj=c(0,0))
