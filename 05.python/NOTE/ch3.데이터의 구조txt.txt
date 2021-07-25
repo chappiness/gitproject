@@ -1,0 +1,146 @@
+ch3.데이터 구조
+-list [ ]
+subject=["국어","영어","수학"]
+print(type(subject))-class list
+print(subject)-[ ] 형태로 출력됨
+
+#range(from,to,by) from 생략하면 0부터 by는 1
+:from부터 to 바로 앞까지  by씩 증가하면서 만들어진 리스트
+[0, 1, 2, 3, 4, 5]>list(range(6))
+range(6)=range(0,6)
+
+1~9까지 짝수 list(range(1,10,2))
+1~9까지 홀수 list(range(2,10,2))
+
+i:in 안에 뽑아내고 싶은 변수
+for i in range(1,5): >>1,2,3,4 출력됨
+    print(i)
+for i in range(5):>>0,1,2,3,4 출력됨
+    print(i)
+
+#2차원리스트
+a=[[1,2,3],[4,5,6],[7,8,9]]
+for i in range(len(a)):
+    for j in range(len(a[i])):
+        print("{}행{}열:{}".format(i,j,a[i][j]))
+0행0열:1 1행0열:4 2행0열:7
+0행1열:2 1행1열:5 2행1열:8
+0행2열:3 1행2열:6 2행2열:9
+
+#최소값,최대값
+number=[1,2,3,4,5]
+number_s=[[1,2,3],[4.5]]
+max(number_s):[4.5]
+min(number_s):[1,2,3]
+
+#요소 추가
+num=[1,2,3,4]
+num1=[5,6]
+
+# + 리스트 연결
+#append() 요소 맨 뒤에 추가
+num.append(num1) #통째로
+print(num)
+[1, 2, 3, 4,[5, 6]]
+
+#extend() 리스트 요소별로 맨 뒤에 추가
+num.extend(num1) #개별로
+print(num)
+[1, 2, 3, 4, 5, 6]
+
+#insert(idx,값) idx번째 인덱스에 값 추가
+zum=[1,2,3]
+zum.insert(2,'aaa')
+zum
+result:[1, 2, 'aaa', 3]
+
+-인덱싱
+-[index]:인덱스를 이용한 접근
+
+-index():해당 요소의 위치 반환
+a=[1,2,[1,2,3],1,2,3]
+a.count(2) #2개
+a.count([1,2,3]) #1개
+a.index([1,2,3]) 인덱스 위치:2
+
+-2가 a 요소에 있는지 여부
+2 in a  #True
+
+-count():리스트에서 데이터의 갯수 반환
+a.count(2) #2개
+a.count([1,2,3]) #1개
+
+-리스트 슬라이싱
+[from:to:by]from부터 to 바로 앞까지 by씩 증가하는 인덱스 추출
+zum=[1,2,3,4,5,6]
+zum[::-1] #[6, 5, 4, 3, 2, 1]
+
+-list comprehension(if절 대신 많이 쓰임)
+numb=[1,2,3,4,5,6,7,8,9]
+[data for data in numb] 조건이 생기면 뒤에 if절
+
+#짝수 데이터만 가져오기
+[data for data in numb if data%2==0]
+
+#글씨가 4글자 이상인 데이터만 가져오기
+name=['강한나래','채피니스','이건한','용과이무기']
+[data for data in name if len(data)>4]
+
+#이름의 글자수들을 추출해
+[len(names) for names in name]
+
+#요소 수정하기
+numbers=[1,2,3,4]
+2번대신 다 가능
+numbers[1]='채피니스'
+[1, '채피니스', 3, 4]
+
+#슬라이싱에서 by가 포함된 경우 바꾸려는 값의 갯수 맞아야 함
+numbers=[0]*10
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+numbers[::3]=[3,3,3,3]
+[3, 0, 0, 3, 0, 0, 3, 0, 0, 3]
+
+#삭제하기
+pop():가장 마지막 인덱스의 요소가 반환되고 삭제
+pop(n):n번째 idx요소가 반환되고 삭제
+remove(data) :해당 데이터가 삭제
+del 리스트변수.[n]:n번째 index 요소가 삭제
+ex)a=[1,2,3]
+    a.pop(2):3
+    a  :[1,2]
+    a.pop() 2
+    a :[1]
+    a.remove(1)
+    a :[]
+
+#정렬하기
+numbers=[9,5,2,6,10]
+numbers.sort()
+numbers
+[2, 5, 6, 9, 10]
+
+#오름차순 결과를 내림차순으로
+numbers=numbers[::-1] 
+numbers
+[10, 9, 6, 5, 2]
+
+#내림차순 정렬,리스트 내용에 적용
+numbers.sort(reverse=False) 
+numbers
+[2, 5, 6, 9, 10]
+
+#리스트를 역순으로 변경
+numbers.reverse()
+numbers
+[10, 9, 6, 5, 2]
+
+#리스트 복제(copy를 이용한다)-문자도 마찬가지!
+set1=[5,3,2,1,4]
+set=set1.copy() #numbers 복제
+set.sort()
+print("정렬전:",set1) #정렬전: [5, 3, 2, 1, 4]
+print("정렬후:",set)   #정렬후: [1, 2, 3, 4, 5]
+print("전 주소:",id(set1)) #전 주소: 2756672670720
+print("후 주소:",id(set))   #후 주소: 2756673029760
+
