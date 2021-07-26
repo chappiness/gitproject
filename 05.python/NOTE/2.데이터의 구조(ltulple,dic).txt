@@ -1,0 +1,56 @@
+-tuple () cf) list []
+리스트와 유사,수정 불가
+(데이터 추가,수정,삭제 불가)
+['서울']>>요소가 1개인list
+('서울') >>요소가  1개인 str
+('서울',) >>요소가 1개인 tuple
+
+#여러값을 나열할때도 tuple
+a=1,2,3,5,6
+
+#append,extend,pop 불가!
+
+-dictionary {} 이용
+ key(unique),value 값으로 구성
+ 중복허용x
+ ({}) 0 [{}] x
+
+*값을 출력하고 싶을때>>변수명['key'] 값을 출력 or 변수명.get('key')
+*없는 key값을 전자로 출력할때는 오류,get함수일땐 none 출력
+
+#데이터 추가,삭제,수정 #append,extend는 사용 불가
+변수['새로운 key값']=value >>추가
+변수['있는 key값']=value >>수정
+del('변수[있는 key값'])>>삭제
+
+#키목록 확인
+-변수명.key()
+
+#value 목록 확인
+-변수명.values()
+
+#튜플로 이루어진  키,값 확인
+-변수명.items()
+
+#for을 이용한 딕셔너리 출력
+my_dic={'name':'홍길동','age':25,'tel':'010-9999-9999'}
+
+#key 값만 출력되는 경우
+ for data in my_dic:
+     print(data,end='\t')
+
+#value 값만 출력되는 경우
+ for data in my_dic.values():
+     print(data,end='\t')
+
+#key,value 값 모두 출력되는 경우
+ for data in my_dic.items():
+     print(data,end='\t')
+
+#list comprehension 이용
+    [data for data in my_dic] 
+
+#in 연산자를 이용할때 키값으로 확인
+'key' in 변수명 >>>T/F
+
+-데이터 복사할땐 list처럼 .copy()  활용
