@@ -1,0 +1,46 @@
+--set--
+#중복 허용하지 않는 집합(순서x)>>문자를 출력할시 순서없이 출력됨
+#중괄호나 set()함수 사용 괄호안에 list,tuple,dic 다 가능>>출력할땐 {}로 표시됨
+#.add() 활용하여 변수안에 data를 추가한다(인자 하나씩 추가 가능)
+#add() 활용,data 추가시 list 인수 and dic 인수 불가! ([]) x ({})
+#{} 안에 T or F 있으면 0과 1 중복되니 추가 안됨
+
+-set에 list and dic 인자 추가>>>.update() 활용! #dic은 키 값만 추가됨,리스트안에 변수들은 리스트 풀려서 들어감
+-set에 list and dic 인자 삭제>>>.remove() 활용!
+
+#교집합 &,차집합 -,합집합 |
+
+#enumerate(list,set,dic 다 가능)
+-반복자 또는 순서 객체(출력할 변수 앞에 0,1,2,3 ....인덱스를 붙임)
+ movie={"쉬리","너와 나","채피니스"}
+ print(movie) >>{'쉬리', '채피니스', '너와 나'}
+ print(list(enumerate(movie))) >>[(0, '쉬리'), (1, '채피니스'), (2, '너와 나')]
+
+-반복문을 처리할때 인덱스를 처리하는 함수
+figure={'한국':"쉬리",'아이유':"너와 나",'래퍼':"채피니스"}
+print(figure)
+list(enumerate(figure)) #key값만 출력
+for data in enumerate(figure):
+    print(data)
+#{'한국': '쉬리', '아이유': '너와 나', '래퍼': '채피니스'}
+ (0, '한국')
+ (1, '아이유')
+ (2, '래퍼')
+
+for idx,(key,values) in enumerate(figure.items()):
+    print("{}번째 key:{},value:{}".format(idx,key,values))
+#0번째 key:한국,value:쉬리
+#1번째 key:아이유,value:너와 나
+#2번째 key:래퍼,value:채피니스
+
+for idx,key in enumerate(figure.keys()):
+    print("{}번째 key:{}".format(idx,key))
+#0번째 key:한국
+#1번째 key:아이유
+#2번째 key:래퍼
+
+for idx,value in enumerate(figure.values()):
+    print("{}번째 value:{}".format(idx,value))
+#0번째 value:쉬리
+#1번째 value:너와 나
+#2번째 value:채피니스
