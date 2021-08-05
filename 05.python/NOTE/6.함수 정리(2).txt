@@ -1,0 +1,107 @@
+##인수 unpacking #튜플
+1부터 10의 합 구할때
+sum=0
+def add(*args):
+   for num in args:
+     sum+=num
+   return sum
+>>>>add(1,2,3),add(1,2,3,4.......) 다 가능
+a=(1,2,3,4)
+add(*a)이렇게 해도 합이 구해진다.
+
+##인수 unpacking #튜플
+def func(**data):
+    for item in data.items():
+        print(item)
+func(height=100,width=200,shape="rect")
+info={'height':100,'width':200,'shape':'rect'
+func(**info} #언패킹
+
+##람다식###
+-실행할 문장을 한 문장만 작성 가능
+-return 구문이 없이도 statement 결과를 반환함
+-list comprehension과 같이 공부!(filter(),map())
+def add(a.b):
+      return a+b
+add(3,5)
+####add=lambda a,b:a+b 매개변수,리턴값 이용가능###
+add(3,5)
+
+
+#함수의 매개변수(인수)에 람다식 이용
+def map_template(func,L=[]):
+    result=[]
+    for item in L:
+        result.append(func(item))
+    return result
+
+list_1=[1,2,3]
+def fun(x):
+    return x**2
+>>>>lambda x:x**2 활용
+map_template(fun,list_1)
+map_template(lambda x:x**2,list_1)
+
+#map() 함수 이용
+list_data=[1,2,3,4,5,6,7,8,9]
+list(map(list(map(lambda x:x*2,list_data))
+[2, 4, 6, 8, 10, 12, 14, 16, 18]
+
+>>>리스트 컴프리헨션 이용
+[x*2 for x in list_data]
+
+def filter_tamplate(func,L=[]):
+    result=[]
+    for item in L:
+        if func(item):
+            result.append(item)
+    return result
+
+list_data=[1,2,3,4,5,]
+def evenChk(x):
+#   if x%2==0:
+#        return True
+    return x%2==0 #T,F
+filter_tamplate(evenChk,list_data)
+>>>>[2, 4]
+
+>>>리스트 컴프리헨션 이용
+filter_tamplate(lambda x: x%2==0,list_data)
+
+#filter 함수
+list(filter(lambda x: x%2==1,list_data))
+
+#lambda 함수 이용
+def even_odd(num):
+    if num%2==0 :
+        return '짝수'
+    else:
+        return '홀수'
+even_odd(7)
+>>>>lambda num:"짝수" if num%2=0 else "홀수"(더 간단함)
+
+def levelChk(score):
+    if score>=80 :
+        return 'A등급'
+    elif score>=70:
+        return 'B등급'
+    else:
+        return '유급'
+>>>>lambda score:'A등급' if score>=80 else \ ("B등급" if score>=70 else "유급)
+
+def score_grade(score):
+    if 90<=score<=100:
+        return 'A'
+    elif 80<=score<90:
+        return 'B'
+    elif 70<=score<80:
+        return 'C'
+    elif 60<=score<70:
+        return 'D'
+    else:
+        return 'F'
+>>>>score_grade=lambda score:'A' if 90<=score<=100 else \
+            ('B' if 80<=score<90 else\
+             ('C' if 70<=score<80 else\
+            ('D' if 60<=score<70  else\
+            ('F' if 0<=score<60 else '우효하지 않는 점수'))))
