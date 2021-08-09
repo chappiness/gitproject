@@ -1,0 +1,204 @@
+###객체와 클래스
+class 클래스명(상속받을 클래스명) 변수나 함수들을 선언
+class Person:
+	name="홍길동"
+	gender="남자"
+p1=Person() #객체 생성
+print(p1.name)>>>홍길동
+print(p1.gender)>>>남자
+
+p2=Person()
+#홍길동 이름 변경하고 싶을떄
+p2.name="이건한"
+
+Person.name>>클래스 영역 변수
+Person.gender>>클래스 영역 변수
+
+#클래스에 (기본변수)+메소드 추가
+class Person:   
+    name='홍길동'
+    gender='남자'
+    def print_info():
+        print("person 메소드")
+        print("{}은 {}입니다.".format(Person.name,Person.gender))  
+
+Person.print_info()
+>>>person 메소드
+홍길동은 남자입니다.
+
+#인스턴스 메소드(객체가 호출할 수 있는 함수)
+>>인스턴스 메소드는 첫번째 인자에 무언가 써야함 self
+>>실제 호출시에는 매개변수 x
+class Person:
+    name='홍길동'
+    gender='남자'
+    age=30
+def print_info(self):
+        print("{}는 {}살이고  {}입니다.".format(self.name,self.age,slef.gender))
+>>>이 떄 format 변수에 꼭  self.들어가야한다.
+p1=Person()
+p1.name='리사'
+p1.print_info()>>>리사는 30살이고  남자입니다.
+
+--------------------------------------------------------
+p1.address='서울시'
+p1.nickname='곰돌이 푸우우우
+>>>없는 변수 집어넣어도 됨
+print(p1.name,p1.nickname,p1.address)
+>>>>리사 곰돌이 푸우우우 서울시
+
+--------------------------------------------------------
+#인스턴스메소드$클래스메소드$static 메소드
+1.인스턴스 메소드 :첫번째 인자에 self 꼭 삽입,객체를 호출할 메소드
+2.클래스 메소드:@classmethod 통해 선언한 메소드 첫번째 인자에 cls(clazz)를 꼭 삽입
+3.static메소드:@staticmethod   
+--------------------------------------------------------------------------------------------------
+class Person:
+    name="홍길동"
+    gender='남자'
+    def print_info(self):
+        print("일반(인스턴스)메소드-{}는 {}입니다.".format(self.name,self.gender))
+    
+    @classmethod
+    def do_(cls):
+        cls.name='신사임당'
+        cls.gender='여자'
+        print("클래스 메소드-{}는 {}입니다.".format(cls.name,cls.gender))
+    
+    @staticmethod
+    def that_():
+        print("static 메소드 -{}는 {}입니다.".format(Person.name,Person.gender))
+____________________________________________________________________________________
+print(Person.name,Person.gender)>>홍길동 남자
+p1=Person()
+p1.print_info()>>일반(인스턴스)메소드-홍길동는 남자입니다.
+Person.that_()>>static 메소드 -홍길동는 남자입니다.
+Person.do_()>>클래스 메소드-신사임당는 여자입니다. 이제부터 이름,성별은 여기것으로 씀!!!
+
+p1.name='이순신'
+print(Person.name,Person.gender)
+p1.print_info()>>>일반(인스턴스)메소드-이순신는 여자입니다.
+Person.that_()>>>static 메소드 -신사임당는 여자입니다.
+Person.do_()>>>클래스 메소드-신사임당는 여자입니다.
+---------------------------------------------------------------
+##생성자(init)와 소멸자(del)
+생성자 : init(self.,.매개변수) 객체 생성될때 자동 실행 for 데이터 초기화
+소멸자:del(self) 객체가 소멸될 때 자동 실행
+-------------------------------------------------
+class Person:
+    def __init__(self,name,gender):
+        self.name=name
+        self.gender=gender
+        print("퍼슨 객체를 생성합니다.")
+    def __del__(self):
+        print('퍼슨 객체를 소멸합니다.')
+    def print_info(self):
+        print("{}는 {}입니다.".format(self.name,self.gender))
+    def __str__(self):
+        return "{}은 {}".format(self.name,self.gender)
+--------------------------------------------------------------------
+p1=Person('심사임당','여자')>>퍼슨 객체를 생성합니다.
+p1.print_info()>>심사임당는 여자입니다.
+p2=Person("홍길동","남자")>>퍼슨 객체를 생성합니다.
+p2.print_info()>>홍길동는 남자입니다.
+
+#def __str__ 이용
+print(p1)>>심사임당은 여자
+print(p2)>>홍길동은 남자
+del p1>>퍼슨 객체를 소멸합니다.
+
+#상속과 재정의
+-부모 클래스
+class Person:
+    'Person은 이름과 성별 멤버변수가 있고 어쩌구저쩌구...'
+    def __init__(self, name, gender):
+        print("Person 객체 생성합니다")
+        self.name = name
+        self.gender = gender
+    def __del__(self):
+        print("Person 객체 소멸시킵니다")
+    def print_info(self):
+        '객체의 이름과 성별을 출력합니다'
+        print("{}님은 {}".format(self.name, self.gender))
+    def __str__(self):
+        return "{}님은 {}".format(self.name, self.gender)
+----------------------------------------------------------------
+----------------------------------------------------------------
+#자식클래스
+class Student(Person):
+    'name과 gender에 major변수를 갖는 Student타입'
+    def __init__(self, name, gender, major):
+        self.name = name
+        self.gender = gender
+        self.major = major
+    def __del__(self):
+        pass
+    def print_info(self):
+        print("{}님의 전공 {}이고 {}입니다".format(self.name, 
+                                         self.major, self.gender))
+    def __str__(self):
+        return "{}님의 전공 {}이고 {}입니다".format(self.name, 
+                                         self.major, self.gender)
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+p1=Person('홍길동','남자')
+print(p1)>>홍길동님은 남자
+s1 = Student("홍길순","여자","빅데이터")
+print(s1)>>홍길순님의 전공 빅데이터이고 여자입니다
+
+isinstance(s1, Student)>>True
+isinstance(s1, Person)>>True
+--------------------------------------------------------------------
+#자식클래스
+class Student(Person):
+    'name과 gender에 major변수를 갖는 Student타입'
+    def __init__(self, name, gender, major):
+	# 부모클래스의 생성자를 호출하여 초기화
+        super().__init__(name,gender)
+        # Person.__init__(self, name, gender)
+        self.major = major
+    def __del__(self):
+        pass
+    def print_info(self):
+        super().print_info()
+        print("전공 {}입니다".format(self.major))
+    def __str__(self):
+        return "그리고 전공은 { }입니다".format(self.major)
+
+s1 = Student("김철수","남자","빅데이터")
+s1.print_info()>>>김철수님은 남자/전공은 빅데이터입니다
+print(s1)>>>김철수님은 남자그리고 전공은 빅데이터입니다
+
+_____________________________________________
+static 변수 활용:여러 객체들 사이에 데이터를 공유할 떄 쓰임
+______________________________________________
+class Person:
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+    def __del__(self):
+        print("Person 객체 소멸시킵니다")
+    def print_info(self):
+        '객체의 이름과 성별을 출력합니다'
+        print("{}님은 {}".format(self.name, self.gender))
+    def __str__(self):
+        return "{}님은 {}".format(self.name, self.gender)
+    
+class Student(Person):
+        'name과 gender에 major 변수를 갖는 Student 타입'
+        __count=0 #static 변수
+        #static 변수 앞에
+        def __init__(self,name,gender,major):
+            #Person.__init__(self,name,gender)
+            super().__init__(name,gender)
+            self.major=major
+            Student._Student__count +=1 #객체 생성할떄마다 카운트가 올라감
+        def __del__(self):
+            Student._Student__count -=1 #객체 소명할때마다 카운트가 감소
+        def __str__(self):
+            return super().__str__()+",전공은 {}입니디".format(self.major)
+        
+        @classmethod #매개변수 꼭 있어야해!
+        def get_count(cls):
+            return Student._Student__count
+            #return cls._Student__count
