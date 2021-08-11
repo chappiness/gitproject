@@ -1,0 +1,112 @@
+###예외처리###
+예외가 날 가능성이 있는 부분에 대해 미리 예상하고 그에 대해 처리를 프로그래밍하는 것
+좀 더 안정적으로 코딩이 실행될 수 있도록 함!
+ex.파일을 다룰 때,파일이 없거나 쓰기 금지로 인한 오류
+f=open("파일명","r")
+lines=f.readlines()
+print(lines)
+파일x>>>FileNotFoundError
+
+4/0>>>>ZeroDivisionError
+ex.데이터베이스 프로그래밍 시 제약조건 등에 의한 데이터 베이스 서버 오류
+ex.네트워크 프로그래밍 시 네트워크 연결 실패로 인한 오류
+ex.리스트 튜플 인덱스를 벗어난 참조로 인한 오류
+b=[1,2,3]
+b[4] >>>>SyntaxError: unexpected EOF while parsing
+---------------------------------------------------------------------------------
+<<<<try~except 예외 처리>>>>>
+try:
+    예외가 발생할 가능성이 있는 문장1
+    명령어...
+except:
+    예외가 발생했을 경우 실행할 문장
+
+<예시1>
+x=int(input("정수를 입력하시오:"))
+print("입력한 정수는 {}".format(x)) #밑에 소수점 두자리까지만 출력
+print("100을 입력한 정수로 나누면 {:.2f}".format(100/x))
+
+0을 입력하면 >>>ZeroDivisionError 오류 뜸
+(수정)
+try:
+    x=int(input("정수를 입력하시오:"))
+    print("입력한 정수는 {}".format(x)) #밑에 소수점 두자리까지만 출력
+    print("100을 입력한 정수로 나누면 {:.2f}".format(100/x))
+except:(오류대신 나와야 될 문장)
+    print("유효한 정수가 아닙니다.")
+
+<확장>  버전이 여러가지인 경우
+while True:
+    try:
+        x=int(input("정수를 입력하시오:"))
+        print("입력한 수는 {}".format(x))
+        print("100을 입력한 수로 나누면 {:0.2f}".format(100/x))
+        break
+    except ZeroDivisionError:
+        print('0으로 나눌 수 없습니다.다시 시도하세요')
+    except ValueError:
+        print('유효한 정수가 아냐.다시 시도하세요')
+    except Exception:
+        print('다시 시도하세요')
+------------------------------------------------------
+try:
+    예외가 발생 할 수 있는 문장
+except error1:
+    예외 발생할 경우 실행할 문장
+except error2:
+    예외 발생할 경우 실행할 문장
+----------------------------------------
+<2> 인덱스 에러 수정
+try:
+    a=[1,2,3]
+    a[3]
+except IndexError as e:
+    print(e)
+
+<3>finally 추가 버전(예외가 발생하든 안하든 반드시 실행)
+try:
+    f=open('data/ch08_.txt','r')
+except FileNotFoundError:
+    print("해당 파일이 없습니다.")
+else:
+    data=f.read()
+    print(data)
+finally:
+    f.close()
+
+4.##raise 활용한 예외 발생
+<예시>
+def insert(data):
+    if len(data)==0:
+        raise LengthZeroError("매개변수의 길이가 0")
+    for item in data:
+        print(item,end='')
+    print("등을 입력하였습니다.")
+
+#추상 클래스
+(python은 추상클래스를 생성할 수 없으나 raise이용 추상클래스 흉내)
+class Shape:>>판을 깔아줌
+    def __init__(self):
+        raise NotImplementedError("추상클래스 역할")
+    def calc_area(self):
+         raise NotImplementedError
+
+>>서브 클래스(함수만 가져옴)
+class Circle(Shape):
+    def __init__(self,radius):
+        self.radius=radius
+    def calc_area(self):
+        return self.radius*self.radius*np.pi(import numpy as np)
+myCircle=Circle(5) >>객체생성하고 5 대입
+myCircle.calc_area()
+
+#파일 정리(with 활용)
+f=open("파일위치,파일명"."r")
+lines=f.readlines() #txt 파일을 한줄한줄 모든줄을 읽어 리스트로 닫음
+print(lines)
+f.close() 
+===============================
+>>>with 활용 버전)더 간단함 (with open~as f/f.readliness() 활용)
+with open("") as f
+lines=f.readlines()
+print(lines)
