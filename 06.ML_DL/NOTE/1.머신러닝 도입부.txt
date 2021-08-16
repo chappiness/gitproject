@@ -28,12 +28,13 @@ Input>>>layer1>layer2>,,,,,,,>leyer L>>>Output
 ###########딥러닝 용어############
 홯성화 함수 종류Softmax,Sigmoid,tanh(x),Binary step,Gaussian,ReLU
 ##텐서플로우 2.0-케라스
-   1.데이터셋 생성-데이터 전처리
-   2.모델 구성-레이어 추가
-   3.모델 학습 과정 설정
-   4.모델 학습
-   5.학습 과정 살펴보기
-   6.모델 평가하기
+   1.데이터셋 생성-데이터 전처리(독립변수,타켓변수 활용)
+   2.모델 구성-레이어 추가(from tensorflow.keras.models import Sequential,
+   from tensorflow.keras.layers import Dense) 활용>>모델 생성,입력값 출력값 위해
+   3.모델 학습 과정 설정>>model.compile(loss="",optimizer="",metrics=[""]
+   4.모델 학습(model.fit(x,y,epochs=.verbose=)
+   5.학습 과정 살펴보기(normalize 이용)
+   6.모델 평가하기 model.predict()
    7.모델 사용하기
 
 -학습 과정 이야기-
