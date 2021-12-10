@@ -1,0 +1,49 @@
+★ apply계열 함수를 이용하면 반복문 사용보다 코드최소화, 수행 속도 빠름
+ - apply : 행렬이나 배열 차원별로 지정한 함수 적용(벡터로 반환)
+ - lapply : list apply (함수를 적용한 결과를 list로 반환)
+ - sapply : lapply와 유사하나 결과를 리스트 대신 행렬, 벡터로 반환
+ - vapply : sapply와 유사하나 FUN의 모든 값이 FUN.VALUE와 호환되는지 확인
+ - mapply : 함수 적용시 여러개의 인자를 함수에 전달
+
+★ 그룹화 처리
+ - tapply : 1개 열에 대해 1개의 함수로 그룹화 처리
+   (ex) tapply(iris$Sepal.Length, iris$Species, mean)
+         tapply(iris$Petal.Length, iris$Species, summary)
+ - by : 1개이상의 열에 대해 1개의 함수로 그룹화 처리(1개 이상의 열 summary)
+   (ex) by(iris[,1:4], iris$Species, summary)
+ - summaryBy : 1개이상의 열에 대해, 1개 이상의 함수로 1개 이상의 그룹화 처리
+ - aggregate : 1개이상의 열에 대해, 1개의 함수로 1개 이상의 그룹화 처리
+
+★ doBy 패키지
+ - summaryBy : 1개이상의 열에 대해, 1개 이상의 함수로 1개 이상의 그룹화 처리
+   (ex)summaryBy(Sepal.width+Sepal.Length~Speices, iris)
+ - orderBy : 열(변수)기준 정렬한 데이터 프레임
+   (ex)orderBy(~-Species+Sepal.Length, data=iris)
+ - sampleBy : 그룹별 데이터를 sampling
+   (ex)sampleBy(~Species, data=iris, frac=0.1)
+
+★ 데이터 추출과 분리
+ - split(데이터 프레임, 분리조건이나 분리그룹변수) : list형태로 데이터 분리
+   (ex)split(iris, iris$Species)
+ - subset(데이터프레임, subset=행조건, select=출력될변수) : 데이터 추출
+
+★ 데이터 합치기
+ - cbind() : 열합치기(컬럼합치기)
+ - rbind() : 행합치기
+ - merge() : 병합하기
+
+★ 데이터 정렬
+ - sort() : 정렬한 데이터를 반환
+   (ex)sort(iris$Sepal.Length)
+ - order() : 정렬한 색인을 반환
+   (ex)order(iris$Sepal.Width, decreasing=T)
+
+★ 데이터 집계
+ - table : 그룹별 갯수 집계
+ - aggregate  : 1개이상의 열에 대해, 1개의 함수로 1개 이상의 그룹화 처리
+   (ex) aggregate(iris[,1:4], by=list(iris$Species), FUN=mean)
+
+★ 조건으로 색인찾기 : which(), which.min(), which.max()
+
+
+https://autodeskresearch.com/publications/samestats
