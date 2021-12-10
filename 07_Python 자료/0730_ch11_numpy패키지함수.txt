@@ -1,0 +1,38 @@
+numpy 패키지의 함수들
+- 배열 생성 함수
+	np.array(벡터데이터,dtype=type).reshape(2,2)
+          기본값을 갖는 배열 생성
+	np.zeros(tup) : 요소들이 다 0
+	np.ones(tup) : 요소들이 다 1
+ 	np.empty(tup) : 초기 내용은 임의값인 배열(메모리 상태에 따라 달라짐)
+          연속된 값을 갖는 배열 생성
+	np.arange(from, to, by, dtype=None)
+	np.linspace(from, to, num)
+         배열에 난수발생
+	np.random.normal(0, 1, 100) # 평균0, 표준편차가1인 수 100개 배열
+	np.random.random(tup) : 0~1사이의 난수 발생 tup의 i행j열 배열
+	np.random.rand(n) : 균일분포내의 1차원 난수 배열 발생
+	np.random.randn(n) : 표준정규분포 1차원 난수 배열 발생
+- 배열 연산 : np.add(), np.multiply,..., 브로드캐스팅
+- 두 배열 합치기
+	np.vstack(tup)
+	np.hstack(tup)
+	np.dstack(tup) : 마지막 축(열)들끼리 합침
+
+	column_stack(tup) : 1차원 배열을 열단위로 배열하여 2차원 배열로 합침
+	row_stack(tup) : 행단위로 합침
+	stack(tup, axis)
+	
+	r_[a, b, c]
+	c_[a, b, c]
+- 배열 분할하기
+	vsplit(ary, indices_or_sections) : 첫번째 축(2차원의 경우 가로축)을 따라 분할
+	hsplit(ary, indices_or_sections) : 두번째 축(2차원의 경우 세로축)을 따라 분할
+	dsplit(ary, indices_or_sections) : 3번째 차원을 나눔
+
+	split(ary, indices_or_sections, axis=?) 
+				axis가 0이면 vsplit, 1이면 hsplit, 2이면 dsplit
+	array_split(ary, indices_or_sections, axis=?) 나눠지지 않는 정수로도 split 가능
+
+
+

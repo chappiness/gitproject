@@ -1,0 +1,13 @@
+1)데이터준비
+2)미적속성설정 - sns.set(style='darkgrid' ,,...
+                               context='notebook', .. 배율
+                               palette='deep'/'muted'/'bright'/'pastel',,
+3) 그래프 함수
+  ⓐ관계형그래프 : scatterplot,lineplot => relplot(서브플롯)
+  ⓑ범주형그래프 : stripplot, swarmplot, barplot, barhplot,
+                         countplot, pointplot, violinplot, boxplot, boxexplot
+                          => catplot(서브플롯)
+  ⓒ쌍관계 그래프 pairplot
+  ⓓ 밀도그래프
+  ⓔ 회귀 그래프 regplot => lmplot(서브플롯)
+4) 다중 그래프를 위한 FacetGrid

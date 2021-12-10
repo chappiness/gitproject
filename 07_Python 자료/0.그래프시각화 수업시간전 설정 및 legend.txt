@@ -1,0 +1,26 @@
+# 수업 시작전 설정
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+%config InlineBackend.figure_format='retina'
+#한글 설정
+plt.rc("font", family="Malgun Gothic") # windows
+# plt.rc('font', family='AppleGothic') # Mac
+plt.rc("axes", unicode_minus=False) # y축
+# 경고 메세지 안 보이게 
+import warnings
+warnings.filterwarnings(action='ignore')
+# warnings.filterwarnings(action='default')
+
+# https://stackoverflow.com/questions/30490740/move-legend-outside-figure-in-seaborn-tsplot
+plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+plt.legend(bbox_to_anchor=(1.01, 0.7), loc=0, borderaxespad=0.)
+
+# 한글폰트를 설정합니다.
+# win
+plt.rc("font", family="Malgun Gothic")
+
+import matplotlib.font_manager as fm
+font_path = "C:/Windows/Fonts/H2PORM.TTF"
+font_prop = fm.FontProperties(fname=font_path, size=15)
